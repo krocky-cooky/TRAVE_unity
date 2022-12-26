@@ -4,10 +4,8 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
-    public class Bluetooth : CommunicationBase 
+    public class WebSockets : CommunicationBase 
     {
-
-        
 
         public override bool isConnected
         {
@@ -16,7 +14,6 @@ namespace TRAVE_unity
                 return true;
             }
         }
-
 
         public override void Start()
         {
@@ -37,7 +34,7 @@ namespace TRAVE_unity
         {
 
         }
-        
+
         public override void OnDisconnect()
         {
 

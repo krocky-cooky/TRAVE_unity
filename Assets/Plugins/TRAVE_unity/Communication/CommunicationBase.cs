@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
-    public abstract class CommunicationBase
+    public abstract class CommunicationBase : MonoBehaviour 
     {
-        public bool isConnected;
+        public abstract bool isConnected{get;}
 
         public abstract void Start();
 
@@ -21,7 +21,9 @@ namespace TRAVE_unity
         public abstract void Update();
 
         public abstract ReceivingDataFormat GetReceivedData();
+        
+        public abstract string GetReceivedString();
 
-        public abstract void SendData(SendingDataFormat sendingData);
+        public abstract bool SendData(SendingDataFormat sendingData);
     }
 }

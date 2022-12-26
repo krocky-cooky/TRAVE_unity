@@ -16,6 +16,8 @@ namespace TRAVE_unity
         private string receivedString = "";
         private ReceivingDataFormat receivedData;
 
+        private Logger _logger = Logger.GetInstance;
+
         public override bool isConnected
         {
             get {return _serialPort.IsOpen;}
@@ -30,13 +32,21 @@ namespace TRAVE_unity
         {
             if(isConnected)
             {
-                Debug.Log("Serial Port Already Opened");
+                _logger.writeLog("Serial Port has Already Opened.", Logger.LogLevel.Info);
                 return;
             }
 
             //シリアルポートの開通
-            _serialPort = new SerialPort(_portName, baudRate, Parity.None, 8, StopBits.One);
-            _serialPort.Open();
+            try
+            {
+                _serialPort = new SerialPort(_portName, _baudRate, Parity.None, 8, StopBits.One);
+                _serialPort.Open();
+            }
+            catch (System.Exception e)
+            {
+                _logger.writeLog(e.Message, Logger.LogLevel.Warn);
+            }
+            
 
 
             //シリアル読み取りスレッドの開始
@@ -46,7 +56,7 @@ namespace TRAVE_unity
             OnConnect();
         }
 
-        public override void Close()
+        public override void Disconnect()
         {
             if(_thread != null && _thread.IsAlive)
             {
@@ -62,14 +72,14 @@ namespace TRAVE_unity
             OnDisconnect();
         }
 
-        private override void OnConnect()
+        public override void OnConnect()
         {
-
+            _logger.writeLog("Serial port opened.", Logger.LogLevel.Info);
         }
 
-        private override void OnDisconnect()
+        public override void OnDisconnect()
         {
-
+            _logger.writeLog("Serial port closed.", Logger.LogLevel.Info);
         }
 
         private void Read()
@@ -78,14 +88,13 @@ namespace TRAVE_unity
             {
                 try
                 {
-                    String message = _serialPort.ReadLine();
+                    string message = _serialPort.ReadLine();
+                    receivedString = message;
                 }
                 catch (System.Exception e)
                 {
-                    Debug.logWarning(e.Message);
+                    _logger.writeLog(e.Message, Logger.LogLevel.Warn);
                 }
-                
-                receivedString = message;
             }
         }
 
@@ -96,7 +105,7 @@ namespace TRAVE_unity
 
         public override ReceivingDataFormat GetReceivedData()
         {
-            receivedData = JsonUtility.FromJson<ReceivingDataFormat>();
+            receivedData = JsonUtility.FromJson<ReceivingDataFormat>(receivedString);
             return receivedData;
         }
 
@@ -105,18 +114,21 @@ namespace TRAVE_unity
             return receivedString;
         }
 
-        public override void SendData(SendingDataFormat sendingData)
+        public override bool SendData(SendingDataFormat sendingData)
         {
             if(isConnected)
             {
+                string message = JsonUtility.ToJson(sendingData, true);
+                return Write(message);
             }
             else
             {
-                Debug.Log("serial port is not opened");
+                _logger.writeLog("Serial port not open.", Logger.LogLevel.Warn);
+                return false;
             }
         }
 
-        private void Write(string message)
+        private bool Write(string message)
         {
             message += '\n';
             try
@@ -125,8 +137,10 @@ namespace TRAVE_unity
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning(e.Message);
+                _logger.writeLog(e.Message, Logger.LogLevel.Warn);
+                return false;
             }
+            return true;
         }
 
         
