@@ -6,18 +6,13 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
-    public enum CommunicationType
-    {
-        Serial,
-        WebSockets,
-        Bluetooth,
-    }
+    
 
     public class DeviceMaster : MonoBehaviour 
     {
         //デバイスとの通信タイプ
-        [SerializeField]
-        private CommunicationType communicationType = CommunicationType.Serial;
+        [HideInInspector]
+        public CommunicationType communicationType = CommunicationType.Serial;
 
         //コネクションを管理する抽象クラス
         private CommunicationBase _communicationBase;
