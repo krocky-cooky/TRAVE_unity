@@ -26,7 +26,8 @@ namespace TRAVE_unity
         //以下公開プロパティ
 
         //クラスインスタンスアクセス用
-        public static Logger GetInstance {
+        public static Logger GetInstance
+        {
             get {return instance;}
         }
 
