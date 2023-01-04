@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5523158671561297696}
   - component: {fileID: 5523158671561297697}
-  - component: {fileID: 5523158671561297699}
   m_Layer: 0
   m_Name: TRAVE-device
   m_TagString: Untagged
@@ -44,19 +43,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1fa6f5254f30ce449080b481f998dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communicationType: 0
---- !u!114 &5523158671561297699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5523158671561297694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e0cd5b6d68a1e42b4d7430316db32e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  communicationType: 0
-  portName: COM0
-  baudRate: 9600

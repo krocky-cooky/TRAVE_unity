@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TRAVE;
 
 namespace TRAVE_unity
 {
-    public abstract class CommunicationBase : MonoBehaviour 
+    public abstract class CommunicationBase
     {
         public abstract bool isConnected{get;}
 
@@ -25,5 +26,9 @@ namespace TRAVE_unity
         public abstract string GetReceivedString();
 
         public abstract bool SendData(SendingDataFormat sendingData);
+
+        public abstract void AllocateParams(SettingParams settingParams);
+
+
     }
 }
