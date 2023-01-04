@@ -35,3 +35,5 @@ public class SampleClass : MonoBehaviour
   }
  }
 ```
+## License
+[MIT License](https://github.com/krocky-cooky/TRAVE_unity/blob/main/LICENSE)
