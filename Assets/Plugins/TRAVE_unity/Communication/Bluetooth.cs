@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TRAVE;
+
 
 namespace TRAVE_unity
 {
@@ -61,6 +63,11 @@ namespace TRAVE_unity
         public override bool SendData(SendingDataFormat seningData)
         {
             return false;
+        }
+
+        public override void AllocateParams(SettingParams settingParams)
+        {
+
         }
 
     }

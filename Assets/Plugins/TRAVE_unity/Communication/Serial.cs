@@ -1,50 +1,57 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
+using TRAVE;
 
 namespace TRAVE_unity
 {
     public class Serial : CommunicationBase 
     {
-        private string _portName = "COM1";
-        private int _baudRate = 115200;
+        private string _portName;
+        private int _baudRate;
 
         private SerialPort _serialPort;
         private Thread _thread;
         private string receivedString = "";
         private ReceivingDataFormat receivedData;
 
-        private Logger _logger = Logger.GetInstance;
+        private TRAVELogger _logger = TRAVELogger.GetInstance;
 
         public override bool isConnected
         {
-            get {return _serialPort.IsOpen;}
+            get 
+            {
+                return _serialPort.IsOpen;
+            }
         }
 
         public override void Start()
         {
+            _serialPort = new SerialPort(_portName, _baudRate, Parity.None, 8, StopBits.One);
             Connect();
         }
+
 
         public override void Connect()
         {
             if(isConnected)
             {
-                _logger.writeLog("Serial Port has Already Opened.", Logger.LogLevel.Info);
+                _logger.writeLog("Serial Port has Already Opened.", TRAVELogger.LogLevel.Info);
                 return;
             }
 
             //シリアルポートの開通
             try
             {
-                _serialPort = new SerialPort(_portName, _baudRate, Parity.None, 8, StopBits.One);
                 _serialPort.Open();
             }
             catch (System.Exception e)
             {
-                _logger.writeLog(e.Message, Logger.LogLevel.Warn);
+                _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
+                return;
             }
             
 
@@ -55,6 +62,14 @@ namespace TRAVE_unity
 
             OnConnect();
         }
+
+
+        public override void AllocateParams(SettingParams settingParams)
+        {
+            _portName = settingParams.portName;
+            _baudRate = settingParams.baudRate;
+        }
+        
 
         public override void Disconnect()
         {
@@ -74,12 +89,12 @@ namespace TRAVE_unity
 
         public override void OnConnect()
         {
-            _logger.writeLog("Serial port opened.", Logger.LogLevel.Info);
+            _logger.writeLog("Serial port opened.", TRAVELogger.LogLevel.Info);
         }
 
         public override void OnDisconnect()
         {
-            _logger.writeLog("Serial port closed.", Logger.LogLevel.Info);
+            _logger.writeLog("Serial port closed.", TRAVELogger.LogLevel.Info);
         }
 
         private void Read()
@@ -93,7 +108,7 @@ namespace TRAVE_unity
                 }
                 catch (System.Exception e)
                 {
-                    _logger.writeLog(e.Message, Logger.LogLevel.Warn);
+                    _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
                 }
             }
         }
@@ -123,7 +138,7 @@ namespace TRAVE_unity
             }
             else
             {
-                _logger.writeLog("Serial port not open.", Logger.LogLevel.Warn);
+                _logger.writeLog("Serial port not open.", TRAVELogger.LogLevel.Warn);
                 return false;
             }
         }
@@ -137,7 +152,7 @@ namespace TRAVE_unity
             }
             catch (System.Exception e)
             {
-                _logger.writeLog(e.Message, Logger.LogLevel.Warn);
+                _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
                 return false;
             }
             return true;

@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
-    public class Logger
+    
+    public class TRAVELogger
     {
-        private static readonly Logger instance = new Logger();
+        private static readonly TRAVELogger instance = new TRAVELogger();
 
+        public string latestLogString = "";
 
         public enum LogLevel
         {
@@ -19,14 +21,10 @@ namespace TRAVE_unity
             None
         }
 
-
-        public string latestLogString = "";
-
-
         //以下公開プロパティ
 
         //クラスインスタンスアクセス用
-        public static Logger GetInstance
+        public static TRAVELogger GetInstance
         {
             get {return instance;}
         }

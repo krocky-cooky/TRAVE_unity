@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-namespace TRAVE_unity 
+namespace TRAVE 
 {
     public class SendingDataFormat
     {
@@ -34,5 +34,14 @@ namespace TRAVE_unity
         public float spd;
         public float pos;
         public float integrationAngle;
+
+        public ReceivingDataFormat()
+        {
+            target = "trq";
+            trq = 0.0f;
+            spd = 0.0f;
+            pos = 0.0f;
+            integrationAngle = 0.0f;
+        }
     }
 }
