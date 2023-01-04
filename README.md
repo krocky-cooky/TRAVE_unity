@@ -13,7 +13,7 @@ Download unity package from [here](https://github.com/krocky-cooky/TRAVE_unity/r
 ### Place the prefab in a scene
 ![Inspector of the prefab](./Image/editor_sample.png)
  Set up communication parameters.
-### Manipulate from scripts
+### Operate from scripts
 ``` C#
 using UnityEngine;
 using TRAVE;
