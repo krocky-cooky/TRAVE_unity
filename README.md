@@ -11,6 +11,8 @@ Download unity package from [here](https://github.com/krocky-cooky/TRAVE_unity/r
 
 ## usage
 ### Place the prefab in a scene
+![Inspector of the prefab](./Image/inspector_sample.jpg)
+ Set up communication parameters.
 ### Manipulate from scripts
 ``` C#
 using UnityEngine;
