@@ -214,7 +214,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &974117823
 GameObject:
@@ -297,7 +297,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5523158671763644289
 PrefabInstance:
@@ -306,6 +306,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4957683512731763241, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
+      propertyPath: baudRate
+      value: 9600
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957683512731763241, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
+      propertyPath: portName
+      value: (Unselected)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957683512731763241, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
+      propertyPath: portNameIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957683512731763241, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
+      propertyPath: communicationType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5523158671561297694, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
       propertyPath: m_Name
       value: TRAVE-device

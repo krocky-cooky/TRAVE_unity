@@ -10,12 +10,15 @@ namespace TRAVE_unity
     public class DeviceMaster : MonoBehaviour 
     {
         private TRAVEDevice _trave = TRAVEDevice.GetDevice();
+        private TRAVELogger _logger = TRAVELogger.GetInstance;
 
 
         void Awake()
         {
             SettingParams settingParams = GetComponent<SettingParams>();
            _trave._masterMethod_AllocateParams(settingParams);
+           _logger.printMessage = settingParams.printMessage;
+
         }
 
 
