@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4957683511743816465
+--- !u!1 &6835771489023127269
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4957683511743816495}
-  - component: {fileID: 4957683511743816494}
-  - component: {fileID: 4957683512731763241}
+  - component: {fileID: 6835771489023127272}
+  - component: {fileID: 6835771489023127275}
+  - component: {fileID: 6835771489023127274}
   m_Layer: 0
   m_Name: TRAVE-device
   m_TagString: Untagged
@@ -18,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4957683511743816495
+--- !u!4 &6835771489023127272
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4957683511743816465}
+  m_GameObject: {fileID: 6835771489023127269}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,33 +32,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4957683511743816494
+--- !u!114 &6835771489023127275
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4957683511743816465}
+  m_GameObject: {fileID: 6835771489023127269}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1fa6f5254f30ce449080b481f998dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4957683512731763241
+--- !u!114 &6835771489023127274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4957683511743816465}
+  m_GameObject: {fileID: 6835771489023127269}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39be49a198d56fc43a31599622a33682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   communicationType: 0
-  portName: COM0
+  printMessage: 1
+  portName: (Unselected)
+  portNameIndex: 1
   baudRate: 9600
+  baudRateIndex: 0
   isConnected: 0
   motorMode: not started
   torque: 0
