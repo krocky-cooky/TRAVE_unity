@@ -22,6 +22,16 @@ namespace TRAVE_unity
             None
         }
 
+        private Dictionary< LogLevel, string > _logLevel2Color = new Dictionary< LogLevel, string>()
+        {
+            { LogLevel.Debug, "cyan" },
+            { LogLevel.Info, "lime" },
+            { LogLevel.Warn, "yellow" },
+            { LogLevel.Error, "orange" },
+            { LogLevel.Fatal, "red" },
+            { LogLevel.None, "white" }
+        };
+
         //以下公開プロパティ
 
         //クラスインスタンスアクセス用
@@ -36,7 +46,8 @@ namespace TRAVE_unity
             if(printMessage)
             {
                 //出力文字列の生成
-                string logString = $"[TRAVE::{logLevel.ToString()}] {logMessage}";
+                string color = _logLevel2Color[logLevel];
+                string logString = $"[<color=cyan>TRAVE</color>::<color={color}>{logLevel.ToString()}</color>] <color={color}>{logMessage}</color>";
                 latestLogString = logString;
                 if(logLevel == LogLevel.Warn)
                     Debug.LogWarning(logString);
