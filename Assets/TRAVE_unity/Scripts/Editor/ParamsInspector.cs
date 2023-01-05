@@ -12,9 +12,12 @@ namespace TRAVE_unity
         SettingParams settingParams;
 
         SerializedProperty communicationType;
+        SerializedProperty printMessage;
         //For Serial.cs
         SerializedProperty portName;
+        SerializedProperty portNameIndex;
         SerializedProperty baudRate;
+
 
         //For monitoring
         SerializedProperty isConnected;
@@ -30,6 +33,7 @@ namespace TRAVE_unity
 
         string[] portNames = {};
 
+
         private GUIStyle centeredLabel;
         private GUIStyle monitoringLabel;
 
@@ -39,8 +43,10 @@ namespace TRAVE_unity
             settingParams = target as SettingParams;
 
             communicationType = serializedObject.FindProperty(nameof(settingParams.communicationType));
+            printMessage = serializedObject.FindProperty(nameof(settingParams.printMessage));
 
             portName = serializedObject.FindProperty(nameof(settingParams.portName));
+            portNameIndex = serializedObject.FindProperty(nameof(settingParams.portNameIndex));
             baudRate = serializedObject.FindProperty(nameof(settingParams.baudRate));
             isConnected = serializedObject.FindProperty(nameof(settingParams.isConnected));
             motorMode = serializedObject.FindProperty(nameof(settingParams.motorMode));
@@ -57,11 +63,12 @@ namespace TRAVE_unity
             }
 
             portNames = SerialPortManager.GetInstance.portNames;
-            if(portNames.Length == 0)
-            {
-                portNames = new string[] { "COM0" };
-            }
-
+            List<string> portNameChoices = new List<string>(portNames);
+            string divider = string.Empty;
+            string unselected = "(Unselected)";
+            portNameChoices.Add(divider);
+            portNameChoices.Add(unselected);
+            portNames = portNameChoices.ToArray();
             
             
         }
@@ -82,12 +89,18 @@ namespace TRAVE_unity
             EditorGUILayout.LabelField("General Settings", centeredLabel);
             GUIHelper.BeginVerticalPadded();
             EditorGUILayout.PropertyField(communicationType);
+            EditorGUILayout.PropertyField(printMessage);
             GUIHelper.EndVerticalPadded();
 
             EditorGUILayout.LabelField("Serial Communication Settings", centeredLabel);
             GUIHelper.BeginVerticalPadded();
-            portName.stringValue = portNames[EditorGUILayout.Popup("Port Name", 0, portNames)];
-            baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRateValues[0], baudRateLabels, baudRateValues);
+            if(portNames.Length <= portNameIndex.intValue || portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length] != portName.stringValue)
+            {
+                portNameIndex.intValue = -1;
+            }
+            portNameIndex.intValue = EditorGUILayout.Popup("Port Name", portNameIndex.intValue, portNames);
+            portName.stringValue = portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length];
+            baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRate.intValue, baudRateLabels, baudRateValues);
             GUIHelper.EndVerticalPadded();
 
             EditorGUILayout.LabelField("Websocket Communication Settings", centeredLabel);

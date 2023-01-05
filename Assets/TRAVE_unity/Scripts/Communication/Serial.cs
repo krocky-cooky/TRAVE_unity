@@ -37,6 +37,12 @@ namespace TRAVE_unity
 
         public override void Connect()
         {
+            if(!_portName.Contains("COM"))
+            {
+                _logger.writeLog("Serial port is not selected.", TRAVELogger.LogLevel.Warn);
+                return;
+            }
+
             if(isConnected)
             {
                 _logger.writeLog("Serial Port has Already Opened.", TRAVELogger.LogLevel.Info);
@@ -115,7 +121,6 @@ namespace TRAVE_unity
 
         public override void Update()
         {
-
         }
 
         public override ReceivingDataFormat GetReceivedData()

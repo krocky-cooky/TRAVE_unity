@@ -16,11 +16,13 @@ namespace TRAVE_unity
     {
         //セットアップ用変数群
         public CommunicationType communicationType = CommunicationType.Serial;
+        public bool printMessage = true;
 
         public string portName;
+        public int portNameIndex;
         public int baudRate;
+        public int baudRateIndex;
 
-        private TRAVEDevice _device;
 
         //モニタリング用変数群
         public bool isConnected = false;
@@ -29,7 +31,9 @@ namespace TRAVE_unity
         public float speed = 0.0f;
         public float position = 0.0f;
         public float integrationAngle = 0.0f; 
-        
+
+
+        private TRAVEDevice _device;
 
         void Start()
         {
