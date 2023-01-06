@@ -85,6 +85,11 @@ namespace TRAVE
 
         }
 
+        public bool ReConnectToDevice()
+        {
+            _communicationBase.Connect();
+            return _communicationBase.isConnected;
+        }
         
 
         public void SetTorqueMode(float torque, float spdLimit = 10.0f)
