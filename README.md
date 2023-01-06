@@ -26,8 +26,11 @@ public class SampleClass : MonoBehaviour
   
   void Start()
   {
-    //Make connection with TRAVE device
-    device.MakeConnection();
+    //Make connection with TRAVE device if connection hasn't been made.
+    if(!device.isConnected)
+    {
+     device.ReConnectToDevice()
+    }
     
     //Set up torque mode to 1.0
     device.SetTorqueMode(1.0f);
