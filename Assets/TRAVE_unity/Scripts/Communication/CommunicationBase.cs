@@ -21,11 +21,11 @@ namespace TRAVE_unity
 
         public abstract void Update();
 
-        public abstract ReceivingDataFormat GetReceivedData();
+        public abstract TRAVEReceivingFormat GetReceivedData();
         
         public abstract string GetReceivedString();
 
-        public abstract bool SendData(SendingDataFormat sendingData);
+        public abstract bool SendData(TRAVESendingFormat sendingData);
 
         public abstract void AllocateParams(SettingParams settingParams);
 

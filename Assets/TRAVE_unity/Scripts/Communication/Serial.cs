@@ -16,7 +16,7 @@ namespace TRAVE_unity
         private SerialPort _serialPort;
         private Thread _thread;
         private string receivedString = "";
-        private ReceivingDataFormat receivedData;
+        private TRAVEReceivingFormat receivedData;
 
         private TRAVELogger _logger = TRAVELogger.GetInstance;
 
@@ -123,9 +123,9 @@ namespace TRAVE_unity
         {
         }
 
-        public override ReceivingDataFormat GetReceivedData()
+        public override TRAVEReceivingFormat GetReceivedData()
         {
-            receivedData = JsonUtility.FromJson<ReceivingDataFormat>(receivedString);
+            receivedData = JsonUtility.FromJson<TRAVEReceivingFormat>(receivedString);
             return receivedData;
         }
 
@@ -134,7 +134,7 @@ namespace TRAVE_unity
             return receivedString;
         }
 
-        public override bool SendData(SendingDataFormat sendingData)
+        public override bool SendData(TRAVESendingFormat sendingData)
         {
             if(isConnected)
             {

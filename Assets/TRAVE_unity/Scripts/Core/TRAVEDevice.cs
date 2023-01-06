@@ -9,8 +9,8 @@ namespace TRAVE
 
         private CommunicationType _communicationType;
         private CommunicationBase _communicationBase;
-        private SendingDataFormat _currentMotorState = new SendingDataFormat();
-        private SendingDataFormat _dataToSend = new SendingDataFormat();
+        private TRAVESendingFormat _currentMotorState = new TRAVESendingFormat();
+        private TRAVESendingFormat _dataToSend = new TRAVESendingFormat();
 
         private TRAVELogger _logger = TRAVELogger.GetInstance;
 
@@ -75,7 +75,7 @@ namespace TRAVE
             _communicationBase.Update();
 
             { //allocate parameters for monitoring
-                ReceivingDataFormat data = GetReceivedData();
+                TRAVEReceivingFormat data = GetReceivedData();
                 torque = data.trq;
                 speed = data.spd;
                 position = data.pos;
@@ -116,14 +116,14 @@ namespace TRAVE
             return _communicationBase.SendData(_dataToSend);
         }
 
-        public ReceivingDataFormat GetReceivedData()
+        public TRAVEReceivingFormat GetReceivedData()
         {
             string receivedString = _communicationBase.GetReceivedString();
-            ReceivingDataFormat retval = JsonUtility.FromJson<ReceivingDataFormat>(receivedString);
+            TRAVEReceivingFormat retval = JsonUtility.FromJson<TRAVEReceivingFormat>(receivedString);
             
             if(retval == null) 
             {
-                return new ReceivingDataFormat();
+                return new TRAVEReceivingFormat();
             }
 
             return retval;
