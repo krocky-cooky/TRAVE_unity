@@ -13,6 +13,9 @@ namespace TRAVE
         private TRAVESendingFormat _dataToSend = new TRAVESendingFormat();
         private string _motorCommandPrefix = "m";
         private string _converterCommandPrefix = "p";
+        private float _maxTorque;
+        private float _maxSpeed;
+        
 
         private TRAVELogger _logger = TRAVELogger.GetInstance;
 
@@ -63,6 +66,8 @@ namespace TRAVE
                     _communicationBase = new Bluetooth();
                     break;
             }
+            _maxTorque = settingParams.maxTorque;
+            _maxSpeed = settingParams.maxSpeed;
             _communicationBase.AllocateParams(settingParams);
         }
 
@@ -103,6 +108,11 @@ namespace TRAVE
         public void SetTorqueMode(float torque, float spdLimit = 10.0f)
         {
             _dataToSend.target = "trq";
+            if(torque > _maxTorque)
+            {
+                _logger.writeLog("Input torque limit exceeded.", TRAVELogger.LogLevel.Warn);
+                torque = _maxTorque;
+            }
             _dataToSend.trq = torque;
             _dataToSend.spdLimit = spdLimit;
         }
@@ -111,6 +121,11 @@ namespace TRAVE
         public void SetSpeedMode(float speed, float trqLimit = 2.0f)
         {
             _dataToSend.target = "spd";
+            if(speed > _maxSpeed)
+            {
+                _logger.writeLog("Input speed limit exceeded.", TRAVELogger.LogLevel.Warn);
+                speed = _maxSpeed;
+            }
             _dataToSend.spd = speed;
             _dataToSend.trqLimit = trqLimit;
         }

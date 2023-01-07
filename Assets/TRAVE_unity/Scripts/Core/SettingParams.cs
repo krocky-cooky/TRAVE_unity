@@ -17,6 +17,8 @@ namespace TRAVE_unity
         //セットアップ用変数群
         public CommunicationType communicationType = CommunicationType.Serial;
         public bool printMessage = true;
+        public float maxTorque = 4.0f;
+        public float maxSpeed = 5.0f;
         public string sendingText;
 
         public string portName;
