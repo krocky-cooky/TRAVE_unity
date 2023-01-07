@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Threading;
+using System.Threading.Tasks;
 using TRAVE;
 
 namespace TRAVE_unity
@@ -14,9 +14,10 @@ namespace TRAVE_unity
         private int _baudRate;
 
         private SerialPort _serialPort;
-        private Thread _thread;
+        private Task _readingTask;
+        private bool _cancellationToken = false;
         private string receivedString = "";
-        private ReceivingDataFormat receivedData;
+        private TRAVEReceivingFormat receivedData;
 
         private TRAVELogger _logger = TRAVELogger.GetInstance;
 
@@ -37,6 +38,18 @@ namespace TRAVE_unity
 
         public override void Connect()
         {
+
+            if(_readingTask != null)
+            {
+                _cancellationToken = true;
+            }
+
+            if(_serialPort != null && _serialPort.IsOpen)
+            {
+                _serialPort.Close();
+                _serialPort.Dispose();
+            }
+
             if(!_portName.Contains("COM"))
             {
                 _logger.writeLog("Serial port is not selected.", TRAVELogger.LogLevel.Warn);
@@ -63,8 +76,8 @@ namespace TRAVE_unity
 
 
             //シリアル読み取りスレッドの開始
-            _thread = new Thread(Read);
-            _thread.Start();
+            _cancellationToken = false;
+            _readingTask = Read();
 
             OnConnect();
         }
@@ -79,9 +92,9 @@ namespace TRAVE_unity
 
         public override void Disconnect()
         {
-            if(_thread != null && _thread.IsAlive)
+            if(_readingTask != null)
             {
-                _thread.Join();
+                _cancellationToken = true;
             }
 
             if(_serialPort != null && _serialPort.IsOpen)
@@ -103,29 +116,40 @@ namespace TRAVE_unity
             _logger.writeLog("Serial port closed.", TRAVELogger.LogLevel.Info);
         }
 
-        private void Read()
+        private async Task<bool> Read()
         {
-            while(isConnected && _serialPort != null && _serialPort.IsOpen)
+            return await Task.Run<bool>(() =>
             {
-                try
+                while(!_cancellationToken && _serialPort != null && _serialPort.IsOpen)
                 {
-                    string message = _serialPort.ReadLine();
-                    receivedString = message;
+                    try
+                    {
+                        string message = _serialPort.ReadLine();
+                        receivedString = message;
+                    }
+                    catch (System.Exception e)
+                    {
+                        if(!_cancellationToken)
+                            _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
+                    }
                 }
-                catch (System.Exception e)
-                {
-                    _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
-                }
-            }
+                return true;
+            });
+
         }
 
         public override void Update()
         {
         }
 
-        public override ReceivingDataFormat GetReceivedData()
+        public override void OnApplicationQuit()
         {
-            receivedData = JsonUtility.FromJson<ReceivingDataFormat>(receivedString);
+            Disconnect();
+        }
+
+        public override TRAVEReceivingFormat GetReceivedData()
+        {
+            receivedData = JsonUtility.FromJson<TRAVEReceivingFormat>(receivedString);
             return receivedData;
         }
 
@@ -134,7 +158,7 @@ namespace TRAVE_unity
             return receivedString;
         }
 
-        public override bool SendData(SendingDataFormat sendingData)
+        public override bool SendData(TRAVESendingFormat sendingData)
         {
             if(isConnected)
             {

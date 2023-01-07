@@ -33,6 +33,11 @@ namespace TRAVE_unity
             _trave._masterMethod_Update();
         }
 
+        void OnApplicationQuit()
+        {
+            _trave._masterMethod_OnApplicationQuit();
+        }
+
          
     }
 }

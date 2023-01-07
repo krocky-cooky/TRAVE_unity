@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TRAVE 
 {
-    public class SendingDataFormat
+    public class TRAVESendingFormat
     {
         
         //トルク指令か速度指令か
@@ -15,7 +15,7 @@ namespace TRAVE
         public float spdLimit;
         public float trqLimit;
 
-        public SendingDataFormat()
+        public TRAVESendingFormat()
         {
             target = "trq";
             trq = -0.1f;
@@ -27,7 +27,7 @@ namespace TRAVE
 
     }
 
-    public class ReceivingDataFormat
+    public class TRAVEReceivingFormat
     {
         public string target;
         public float trq;
@@ -35,7 +35,7 @@ namespace TRAVE
         public float pos;
         public float integrationAngle;
 
-        public ReceivingDataFormat()
+        public TRAVEReceivingFormat()
         {
             target = "trq";
             trq = 0.0f;

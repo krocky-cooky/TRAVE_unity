@@ -50,9 +50,9 @@ namespace TRAVE_unity
 
         }
 
-        public override ReceivingDataFormat GetReceivedData()
+        public override TRAVEReceivingFormat GetReceivedData()
         {
-            return new ReceivingDataFormat();
+            return new TRAVEReceivingFormat();
         }
 
         public override string GetReceivedString()
@@ -60,7 +60,7 @@ namespace TRAVE_unity
             return "";
         }
 
-        public override bool SendData(SendingDataFormat seningData)
+        public override bool SendData(TRAVESendingFormat seningData)
         {
             return false;
         }
@@ -68,6 +68,11 @@ namespace TRAVE_unity
         public override void AllocateParams(SettingParams settingParams)
         {
 
+        }
+
+        public override void OnApplicationQuit()
+        {
+            
         }
 
     }
