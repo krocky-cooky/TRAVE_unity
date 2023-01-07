@@ -364,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6835771489023127274, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
       propertyPath: maxTorque
-      value: 4
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 6835771489023127274, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
       propertyPath: portNameIndex
