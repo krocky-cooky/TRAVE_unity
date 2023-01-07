@@ -17,6 +17,7 @@ namespace TRAVE_unity
         //セットアップ用変数群
         public CommunicationType communicationType = CommunicationType.Serial;
         public bool printMessage = true;
+        public string sendingText;
 
         public string portName;
         public int portNameIndex;
@@ -53,6 +54,31 @@ namespace TRAVE_unity
             speed = _device.speed;
             position = _device.position;
             integrationAngle = _device.integrationAngle;
+        }
+
+        public void sendFieldText()
+        {
+            _device.SendString(sendingText);
+        }
+
+        public void TurnOnMotor()
+        {
+            _device.TurnOnMotor();
+        }
+
+        public void TurnOffMotor()
+        {
+            _device.TurnOffMotor();
+        }
+
+        public void TurnOnConverter()
+        {
+            _device.TurnOnConverter();
+        }
+
+        public void TurnOffConverter()
+        {
+            _device.TurnOffConverter();
         }
     }
 }

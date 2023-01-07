@@ -29,6 +29,8 @@ namespace TRAVE_unity
 
         public abstract bool SendData(TRAVESendingFormat sendingData);
 
+        public abstract bool SendString(string command);
+
         public abstract void AllocateParams(SettingParams settingParams);
 
 
