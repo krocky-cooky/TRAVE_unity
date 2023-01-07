@@ -15,9 +15,10 @@ namespace TRAVE
         private string _converterCommandPrefix = "p";
         private float _maxTorque;
         private float _maxSpeed;
-        
-
+    
         private TRAVELogger _logger = TRAVELogger.GetInstance;
+
+        public TRAVEReceivingFormat currentProfile{ get;set; } = new TRAVEReceivingFormat();
 
         public bool isConnected
         {
@@ -31,14 +32,10 @@ namespace TRAVE
         {
             get
             {
-                return _currentMotorState.target == "trq" ? "Torque Mode" : "Speed Mode";
+                return currentProfile.target == "trq" ? "Torque Mode" : "Speed Mode";
             }   
         }
 
-        public float torque{ get;set; }
-        public float speed{ get; set; }
-        public float position{ get; set; }
-        public float integrationAngle{ get; set; }
 
 
         private TRAVEDevice()
@@ -80,16 +77,7 @@ namespace TRAVE
         internal void _masterMethod_Update()
         {
             _communicationBase.Update();
-
-            { //allocate parameters for monitoring
-                TRAVEReceivingFormat data = GetReceivedData();
-                torque = data.trq;
-                speed = data.spd;
-                position = data.pos;
-                integrationAngle = data.integrationAngle;
-
-            }
-
+            currentProfile = GetReceivedData();
         }
 
 
