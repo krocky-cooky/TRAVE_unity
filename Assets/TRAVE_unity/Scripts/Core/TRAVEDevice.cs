@@ -85,6 +85,12 @@ namespace TRAVE
 
         }
 
+
+        internal void _masterMethod_OnApplicationQuit()
+        {
+            _communicationBase.OnApplicationQuit();
+        }
+
         public bool ReConnectToDevice()
         {
             _communicationBase.Connect();
@@ -124,14 +130,21 @@ namespace TRAVE
         public TRAVEReceivingFormat GetReceivedData()
         {
             string receivedString = _communicationBase.GetReceivedString();
-            TRAVEReceivingFormat retval = JsonUtility.FromJson<TRAVEReceivingFormat>(receivedString);
-            
-            if(retval == null) 
+            try
             {
+                TRAVEReceivingFormat retval = JsonUtility.FromJson<TRAVEReceivingFormat>(receivedString);
+                if(retval == null)
+                {
+                    return new TRAVEReceivingFormat();
+                }
+                return retval;
+            }
+            catch(System.Exception e)
+            {
+                string message = e.Message;
+                _logger.writeLog(receivedString, TRAVELogger.LogLevel.Warn);
                 return new TRAVEReceivingFormat();
             }
-
-            return retval;
         }
     }
 }

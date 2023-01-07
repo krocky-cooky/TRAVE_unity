@@ -41,7 +41,7 @@ namespace TRAVE_unity
         }
 
         //ログ出力
-        public void writeLog(string logMessage, LogLevel logLevel)
+        public void writeLog(string logMessage, LogLevel logLevel = LogLevel.Debug)
         {
             if(printMessage)
             {

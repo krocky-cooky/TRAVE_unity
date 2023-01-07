@@ -67,6 +67,10 @@ namespace TRAVE_unity
             
         }
 
+        public override void OnApplicationQuit()
+        {
+            
+        }
 
     }
 }
