@@ -162,7 +162,8 @@ namespace TRAVE_unity
         {
             if(isConnected)
             {
-                string message = JsonUtility.ToJson(sendingData, true);
+                string message = JsonUtility.ToJson(sendingData);
+                _logger.writeLog(message);
                 return Write(message);
             }
             else
