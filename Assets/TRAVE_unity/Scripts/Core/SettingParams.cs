@@ -50,12 +50,13 @@ namespace TRAVE_unity
 
         private void AllocateParams()
         {
+            TRAVEReceivingFormat currentProfile = _device.currentProfile;
             isConnected = _device.isConnected;
             motorMode = _device.motorMode;
-            torque = _device.torque;
-            speed = _device.speed;
-            position = _device.position;
-            integrationAngle = _device.integrationAngle;
+            torque = currentProfile.trq;
+            speed = currentProfile.spd;
+            position = currentProfile.pos;
+            integrationAngle = currentProfile.integrationAngle;
         }
 
         public void sendFieldText()

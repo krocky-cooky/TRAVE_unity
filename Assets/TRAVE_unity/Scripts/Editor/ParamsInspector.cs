@@ -37,11 +37,12 @@ namespace TRAVE_unity
 
         string[] portNames = {};
 
-
-        private GUIStyle centeredLabel;
-        private GUIStyle monitoringConnection;
-        private GUIStyle monitoringLabel;
-        private GUIStyle monitoringValue;
+        private GUIStyle turnOnButtonStyle;
+        private GUIStyle turnOffButtonStyle;
+        private GUIStyle centeredLabelStyle;
+        private GUIStyle monitoringConnectionValueStyle;
+        private GUIStyle monitoringLabelStyle;
+        private GUIStyle monitoringValueStyle;
 
 
         public void OnEnable()
@@ -84,28 +85,33 @@ namespace TRAVE_unity
 
         public override void OnInspectorGUI()
         {
+            turnOnButtonStyle = new GUIStyle(GUI.skin.button);
+            turnOnButtonStyle.normal.textColor = Color.green;
 
-            centeredLabel = new GUIStyle(GUI.skin.label);
-            centeredLabel.fontStyle = FontStyle.Bold;
-            centeredLabel.alignment = TextAnchor.MiddleCenter;
+            turnOffButtonStyle = new GUIStyle(GUI.skin.button);
+            turnOffButtonStyle.normal.textColor = Color.red;
 
-            monitoringConnection = new GUIStyle(GUI.skin.label);
-            monitoringConnection.fontStyle = FontStyle.Bold;
-            monitoringConnection.normal.textColor = isConnected.boolValue ? Color.green : Color.red;
-            monitoringConnection.alignment = TextAnchor.MiddleCenter;
+            centeredLabelStyle = new GUIStyle(GUI.skin.label);
+            centeredLabelStyle.fontStyle = FontStyle.Bold;
+            centeredLabelStyle.alignment = TextAnchor.MiddleCenter;
 
-            monitoringLabel = new GUIStyle(GUI.skin.label);
-            monitoringLabel.fontStyle = FontStyle.Normal;
-            monitoringLabel.alignment = TextAnchor.MiddleCenter;
+            monitoringConnectionValueStyle = new GUIStyle(GUI.skin.label);
+            monitoringConnectionValueStyle.fontStyle = FontStyle.Bold;
+            monitoringConnectionValueStyle.normal.textColor = isConnected.boolValue ? Color.green : Color.red;
+            monitoringConnectionValueStyle.alignment = TextAnchor.MiddleCenter;
 
-            monitoringValue = new GUIStyle(GUI.skin.label);
-            monitoringValue.fontStyle = FontStyle.Normal;
-            monitoringValue.normal.textColor = Color.green;
-            monitoringValue.alignment = TextAnchor.MiddleCenter;
+            monitoringLabelStyle = new GUIStyle(GUI.skin.label);
+            monitoringLabelStyle.fontStyle = FontStyle.Normal;
+            monitoringLabelStyle.alignment = TextAnchor.MiddleCenter;
+
+            monitoringValueStyle = new GUIStyle(GUI.skin.label);
+            monitoringValueStyle.fontStyle = FontStyle.Normal;
+            monitoringValueStyle.normal.textColor = Color.green;
+            monitoringValueStyle.alignment = TextAnchor.MiddleCenter;
 
             serializedObject.Update();
 
-            EditorGUILayout.LabelField("General Settings", centeredLabel);
+            EditorGUILayout.LabelField("General Settings", centeredLabelStyle);
             GUIHelper.BeginVerticalPadded();
             EditorGUILayout.PropertyField(communicationType);
             EditorGUILayout.PropertyField(printMessage);
@@ -121,21 +127,21 @@ namespace TRAVE_unity
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                if(GUILayout.Button("Turn On Motor"))
+                if(GUILayout.Button("Turn On Motor", turnOnButtonStyle))
                 {
                     settingParams.TurnOnMotor();
                 }
-                if(GUILayout.Button("Turn Off Motor"))
+                if(GUILayout.Button("Turn Off Motor", turnOffButtonStyle))
                 {
                     settingParams.TurnOffMotor();
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                if(GUILayout.Button("Turn On Converter"))
+                if(GUILayout.Button("Turn On Converter", turnOnButtonStyle))
                 {
                     settingParams.TurnOnConverter();
                 }
-                if(GUILayout.Button("Turn Off Converter"))
+                if(GUILayout.Button("Turn Off Converter", turnOffButtonStyle))
                 {
                     settingParams.TurnOffConverter();
                 }
@@ -143,98 +149,57 @@ namespace TRAVE_unity
             }
             GUIHelper.EndVerticalPadded();
 
-            EditorGUILayout.LabelField("Serial Communication Settings", centeredLabel);
-            GUIHelper.BeginVerticalPadded();
-            if(portNames.Length <= portNameIndex.intValue || portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length] != portName.stringValue)
+            switch(settingParams.communicationType)
             {
-                portNameIndex.intValue = -1;
+                case CommunicationType.Serial:
+                    EditorGUILayout.LabelField("Serial Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    if(portNames.Length <= portNameIndex.intValue || portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length] != portName.stringValue)
+                    {
+                        portNameIndex.intValue = -1;
+                    }
+                    portNameIndex.intValue = EditorGUILayout.Popup("Port Name", portNameIndex.intValue, portNames);
+                    portName.stringValue = portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length];
+                    baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRate.intValue, baudRateLabels, baudRateValues);
+                    GUIHelper.EndVerticalPadded();
+                    break;
+                case CommunicationType.WebSockets:
+                    EditorGUILayout.LabelField("Websocket Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    GUIHelper.EndVerticalPadded();
+                    break;
+                case CommunicationType.Bluetooth:
+                    EditorGUILayout.LabelField("Bluetooth Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    GUIHelper.EndVerticalPadded();
+                    break;
+
             }
-            portNameIndex.intValue = EditorGUILayout.Popup("Port Name", portNameIndex.intValue, portNames);
-            portName.stringValue = portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length];
-            baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRate.intValue, baudRateLabels, baudRateValues);
-            GUIHelper.EndVerticalPadded();
 
-            EditorGUILayout.LabelField("Websocket Communication Settings", centeredLabel);
+            EditorGUILayout.LabelField("TRAVE Device Monitoring", centeredLabelStyle);
             GUIHelper.BeginVerticalPadded();
+            RenderTableRow("State", isConnected.boolValue ? "Connected" : "Not connected", monitoringLabelStyle, monitoringConnectionValueStyle);
+            RenderTableRow("Motor Mode", motorMode.stringValue, monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Torque", torque.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Speed", speed.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Position", position.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Integration Angle", integrationAngle.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
             GUIHelper.EndVerticalPadded();
-
-            EditorGUILayout.LabelField("Bluetooth Communication Settings", centeredLabel);
-            GUIHelper.BeginVerticalPadded();
-            GUIHelper.EndVerticalPadded();
-
-            EditorGUILayout.LabelField("TRAVE Device Monitoring", centeredLabel);
-            GUIHelper.BeginVerticalPadded();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("State", monitoringLabel);
-            EditorGUILayout.LabelField(isConnected.boolValue ? "Connected" : "Not connected", monitoringConnection);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Motor Mode", monitoringLabel);
-            EditorGUILayout.LabelField(motorMode.stringValue, monitoringValue);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Current Torque", monitoringLabel);
-            EditorGUILayout.LabelField(torque.floatValue.ToString(), monitoringValue);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Current Speed", monitoringLabel);
-            EditorGUILayout.LabelField(speed.floatValue.ToString(), monitoringValue);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Current Position", monitoringLabel);
-            EditorGUILayout.LabelField(position.floatValue.ToString(), monitoringValue);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Current integration angle", monitoringLabel);
-            EditorGUILayout.LabelField(integrationAngle.floatValue.ToString(), monitoringValue);
-            EditorGUILayout.EndHorizontal();
-
-            GUIHelper.EndVerticalPadded();
-
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private string ConvertLabel(string name, string data)
+        private void RenderTableRow(string label, string value, GUIStyle labelStyle, GUIStyle valueStyle)
         {
-            if(data == null)
-            {
-                return $"{name}";
-            }
-            else
-            {
-                string text = $"{name}    {data}";
-                return text;
-            }
-            
-        }
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(label, labelStyle);
+            EditorGUILayout.LabelField(value, valueStyle);
+            EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+            EditorGUILayout.EndHorizontal();
+        }
 
     }
 }
