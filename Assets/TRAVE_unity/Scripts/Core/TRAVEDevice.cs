@@ -161,7 +161,6 @@ namespace TRAVE
         public TRAVEReceivingFormat GetReceivedData()
         {
             string receivedString = _communicationBase.GetReceivedString();
-            _logger.writeLog(receivedString);
             try
             {
                 TRAVEReceivingFormat retval = JsonUtility.FromJson<TRAVEReceivingFormat>(receivedString);
