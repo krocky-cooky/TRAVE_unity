@@ -13,6 +13,8 @@ namespace TRAVE_unity
 
         SerializedProperty communicationType;
         SerializedProperty printMessage;
+        SerializedProperty sendingText;
+
         //For Serial.cs
         SerializedProperty portName;
         SerializedProperty portNameIndex;
@@ -44,6 +46,7 @@ namespace TRAVE_unity
 
             communicationType = serializedObject.FindProperty(nameof(settingParams.communicationType));
             printMessage = serializedObject.FindProperty(nameof(settingParams.printMessage));
+            sendingText = serializedObject.FindProperty(nameof(settingParams.sendingText));
 
             portName = serializedObject.FindProperty(nameof(settingParams.portName));
             portNameIndex = serializedObject.FindProperty(nameof(settingParams.portNameIndex));
@@ -90,6 +93,36 @@ namespace TRAVE_unity
             GUIHelper.BeginVerticalPadded();
             EditorGUILayout.PropertyField(communicationType);
             EditorGUILayout.PropertyField(printMessage);
+            if(EditorApplication.isPlaying)
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.PropertyField(sendingText);
+                if(GUILayout.Button("Send Text"))
+                {
+                    settingParams.sendFieldText();
+                }
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                if(GUILayout.Button("Turn On Motor"))
+                {
+                    settingParams.TurnOnMotor();
+                }
+                if(GUILayout.Button("Turn Off Motor"))
+                {
+                    settingParams.TurnOffMotor();
+                }
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                if(GUILayout.Button("Turn On Converter"))
+                {
+                    settingParams.TurnOnConverter();
+                }
+                if(GUILayout.Button("Turn Off Converter"))
+                {
+                    settingParams.TurnOffConverter();
+                }
+                EditorGUILayout.EndHorizontal();
+            }
             GUIHelper.EndVerticalPadded();
 
             EditorGUILayout.LabelField("Serial Communication Settings", centeredLabel);

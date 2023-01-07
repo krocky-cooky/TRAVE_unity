@@ -172,6 +172,19 @@ namespace TRAVE_unity
             }
         }
 
+        public override bool SendString(string command)
+        {
+            if(isConnected)
+            {
+                return Write(command);
+            }
+            else
+            {
+                _logger.writeLog("Serial port not open.", TRAVELogger.LogLevel.Warn);
+                return false;
+            }
+        }
+
         private bool Write(string message)
         {
             message += '\n';
