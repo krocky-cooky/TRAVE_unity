@@ -15,21 +15,13 @@ namespace TRAVE_unity
         SerializedProperty maxTorque;
         SerializedProperty maxSpeed;
         SerializedProperty printMessage;
+        SerializedProperty printSerialMessage;
         SerializedProperty sendingText;
 
         //For Serial.cs
         SerializedProperty portName;
         SerializedProperty portNameIndex;
         SerializedProperty baudRate;
-
-
-        //For monitoring
-        SerializedProperty isConnected;
-        SerializedProperty motorMode;
-        SerializedProperty torque;
-        SerializedProperty speed;
-        SerializedProperty position;
-        SerializedProperty integrationAngle;
 
 
         int[] baudRateValues = { 9600, 115200 };
@@ -51,6 +43,7 @@ namespace TRAVE_unity
 
             communicationType = serializedObject.FindProperty(nameof(settingParams.communicationType));
             printMessage = serializedObject.FindProperty(nameof(settingParams.printMessage));
+            printSerialMessage = serializedObject.FindProperty(nameof(settingParams.printSerialMessage));
             maxTorque = serializedObject.FindProperty(nameof(settingParams.maxTorque));
             maxSpeed = serializedObject.FindProperty(nameof(settingParams.maxSpeed));
             sendingText = serializedObject.FindProperty(nameof(settingParams.sendingText));
@@ -58,28 +51,18 @@ namespace TRAVE_unity
             portName = serializedObject.FindProperty(nameof(settingParams.portName));
             portNameIndex = serializedObject.FindProperty(nameof(settingParams.portNameIndex));
             baudRate = serializedObject.FindProperty(nameof(settingParams.baudRate));
-            isConnected = serializedObject.FindProperty(nameof(settingParams.isConnected));
-            motorMode = serializedObject.FindProperty(nameof(settingParams.motorMode));
-            torque = serializedObject.FindProperty(nameof(settingParams.torque));
-            speed = serializedObject.FindProperty(nameof(settingParams.speed));
-            position = serializedObject.FindProperty(nameof(settingParams.position));
-            integrationAngle = serializedObject.FindProperty(nameof(settingParams.integrationAngle));
+            // isConnected = serializedObject.FindProperty(nameof(settingParams.isConnected));
+            // motorMode = serializedObject.FindProperty(nameof(settingParams.motorMode));
+            // torque = serializedObject.FindProperty(nameof(settingParams.torque));
+            // speed = serializedObject.FindProperty(nameof(settingParams.speed));
+            // position = serializedObject.FindProperty(nameof(settingParams.position));
+            // integrationAngle = serializedObject.FindProperty(nameof(settingParams.integrationAngle));
             
-
             baudRateLabels = new string[baudRateValues.Length];
             for(int i = 0;i < baudRateValues.Length; ++i)
             {
                 baudRateLabels[i] = baudRateValues[i].ToString();
-            }
-
-            portNames = SerialPortManager.GetInstance.portNames;
-            List<string> portNameChoices = new List<string>(portNames);
-            string divider = string.Empty;
-            string unselected = "(Unselected)";
-            portNameChoices.Add(divider);
-            portNameChoices.Add(unselected);
-            portNames = portNameChoices.ToArray();
-            
+            }            
             
         }
 
@@ -97,7 +80,7 @@ namespace TRAVE_unity
 
             monitoringConnectionValueStyle = new GUIStyle(GUI.skin.label);
             monitoringConnectionValueStyle.fontStyle = FontStyle.Bold;
-            monitoringConnectionValueStyle.normal.textColor = isConnected.boolValue ? Color.green : Color.red;
+            monitoringConnectionValueStyle.normal.textColor = settingParams.isConnected ? Color.green : Color.red;
             monitoringConnectionValueStyle.alignment = TextAnchor.MiddleCenter;
 
             monitoringLabelStyle = new GUIStyle(GUI.skin.label);
@@ -109,12 +92,30 @@ namespace TRAVE_unity
             monitoringValueStyle.normal.textColor = Color.green;
             monitoringValueStyle.alignment = TextAnchor.MiddleCenter;
 
+            portNames = SerialPortManager.GetInstance.portNames;
+            List<string> portNameChoices = new List<string>(portNames);
+            string divider = string.Empty;
+            string unselected = "(Unselected)";
+            portNameChoices.Add(divider);
+            portNameChoices.Add(unselected);
+            portNames = portNameChoices.ToArray();
+
             serializedObject.Update();
 
+            // if(GUILayout.Button("refresh")) 
+            // {
+            //     EditorUtility.SetDirty(target);
+            // }
             EditorGUILayout.LabelField("General Settings", centeredLabelStyle);
             GUIHelper.BeginVerticalPadded();
             EditorGUILayout.PropertyField(communicationType);
+            EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(printMessage);
+            if(settingParams.printMessage)
+            {
+                EditorGUILayout.PropertyField(printSerialMessage);
+            }
+            EditorGUILayout.EndHorizontal();
             EditorGUILayout.PropertyField(maxTorque);
             EditorGUILayout.PropertyField(maxSpeed);
             if(EditorApplication.isPlaying)
@@ -159,6 +160,7 @@ namespace TRAVE_unity
                         portNameIndex.intValue = -1;
                     }
                     portNameIndex.intValue = EditorGUILayout.Popup("Port Name", portNameIndex.intValue, portNames);
+                    
                     portName.stringValue = portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length];
                     baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRate.intValue, baudRateLabels, baudRateValues);
                     GUIHelper.EndVerticalPadded();
@@ -178,12 +180,12 @@ namespace TRAVE_unity
 
             EditorGUILayout.LabelField("TRAVE Device Monitoring", centeredLabelStyle);
             GUIHelper.BeginVerticalPadded();
-            RenderTableRow("State", isConnected.boolValue ? "Connected" : "Not connected", monitoringLabelStyle, monitoringConnectionValueStyle);
-            RenderTableRow("Motor Mode", motorMode.stringValue, monitoringLabelStyle, monitoringValueStyle);
-            RenderTableRow("Current Torque", torque.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
-            RenderTableRow("Current Speed", speed.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
-            RenderTableRow("Current Position", position.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
-            RenderTableRow("Current Integration Angle", integrationAngle.floatValue.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("State", settingParams.isConnected ? "Connected" : "Not connected", monitoringLabelStyle, monitoringConnectionValueStyle);
+            RenderTableRow("Motor Mode", settingParams.motorMode, monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Torque", settingParams.torque.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Speed", settingParams.speed.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Position", settingParams.position.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            RenderTableRow("Current Integration Angle", settingParams.integrationAngle.ToString(), monitoringLabelStyle, monitoringValueStyle);
             GUIHelper.EndVerticalPadded();
 
             serializedObject.ApplyModifiedProperties();

@@ -17,6 +17,7 @@ namespace TRAVE_unity
         //セットアップ用変数群
         public CommunicationType communicationType = CommunicationType.Serial;
         public bool printMessage = true;
+        public bool printSerialMessage = false;
         public float maxTorque = 4.0f;
         public float maxSpeed = 5.0f;
         public string sendingText;
@@ -29,7 +30,7 @@ namespace TRAVE_unity
 
         //モニタリング用変数群
         public bool isConnected = false;
-        public string motorMode = "not started";
+        public string motorMode = "-";
         public float torque = 0.0f;
         public float speed = 0.0f;
         public float position = 0.0f;
