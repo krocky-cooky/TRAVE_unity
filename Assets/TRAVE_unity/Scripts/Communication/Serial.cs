@@ -12,6 +12,7 @@ namespace TRAVE_unity
     {
         private string _portName;
         private int _baudRate;
+        private bool _printSerialMessage = false;
 
         private SerialPort _serialPort;
         private Task _readingTask;
@@ -87,6 +88,7 @@ namespace TRAVE_unity
         {
             _portName = settingParams.portName;
             _baudRate = settingParams.baudRate;
+            _printSerialMessage = settingParams.printSerialMessage;
         }
         
 
@@ -126,6 +128,10 @@ namespace TRAVE_unity
                     {
                         string message = _serialPort.ReadLine();
                         receivedString = message;
+                        if(_printSerialMessage)
+                        {
+                            _logger.writeLog(receivedString, TRAVELogger.LogLevel.Info);
+                        }
                     }
                     catch (System.Exception e)
                     {

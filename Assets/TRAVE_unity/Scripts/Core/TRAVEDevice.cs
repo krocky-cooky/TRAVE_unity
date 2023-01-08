@@ -1,5 +1,6 @@
 using TRAVE_unity;
 using UnityEngine;
+using System;
 
 namespace TRAVE
 {
@@ -7,10 +8,13 @@ namespace TRAVE
     {
         private static TRAVEDevice _device = new TRAVEDevice();
 
+        private double MIN_SENDING_INTERVAL = 100.0;
+
         private CommunicationType _communicationType;
         private CommunicationBase _communicationBase;
         private TRAVESendingFormat _currentMotorState = new TRAVESendingFormat();
         private TRAVESendingFormat _dataToSend = new TRAVESendingFormat();
+        private DateTime _timeOfPreviousSend;
         private string _motorCommandPrefix = "m";
         private string _converterCommandPrefix = "p";
         private float _maxTorque;
@@ -36,10 +40,48 @@ namespace TRAVE
             }   
         }
 
+        public float Torque
+        {
+            get
+            {
+                return currentProfile.trq;
+            }
+        }
+
+        public float Speed
+        {
+            get
+            {
+                return currentProfile.spd;
+            }
+        }
+
+        public float Position 
+        {
+            get 
+            {
+                return currentProfile.pos;
+            }
+        }
+
+        public float IntegrationAngle 
+        {
+            get 
+            {
+                return currentProfile.integrationAngle;
+            }
+        }
+
 
 
         private TRAVEDevice()
         {  
+        }
+
+        private bool CheckSendingInterval()
+        {
+            int comparison = DateTime.Now.CompareTo(_timeOfPreviousSend.AddMilliseconds(MIN_SENDING_INTERVAL));
+            return comparison > 0;
         }
 
         public static TRAVEDevice GetDevice()
@@ -71,6 +113,7 @@ namespace TRAVE
         internal void _masterMethod_Start()
         {
             _communicationBase.Start();
+            _timeOfPreviousSend = DateTime.Now;
             
         }
 
@@ -157,8 +200,24 @@ namespace TRAVE
         //<sammary> モーターに変更を適用する </sammary>
         public bool Apply()
         {
-            _currentMotorState = _dataToSend;
-            return _communicationBase.SendData(_dataToSend);
+            if(CheckSendingInterval())
+            {
+                _currentMotorState = _dataToSend;
+                if(_communicationBase.SendData(_dataToSend))
+                {
+                    _timeOfPreviousSend = DateTime.Now;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                _logger.writeLog("Transmission interval is too short.", TRAVELogger.LogLevel.Warn);
+                return false;
+            }
         }
 
         public TRAVEReceivingFormat GetReceivedData()

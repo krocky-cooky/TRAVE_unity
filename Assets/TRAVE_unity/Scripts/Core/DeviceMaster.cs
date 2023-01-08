@@ -24,8 +24,7 @@ namespace TRAVE_unity
 
         void Start()
         {
-            _trave._masterMethod_Start();
-            
+            _trave._masterMethod_Start();  
         }
 
         void Update()

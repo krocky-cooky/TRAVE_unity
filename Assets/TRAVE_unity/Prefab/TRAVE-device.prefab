@@ -54,7 +54,7 @@ MonoBehaviour:
   baudRate: 115200
   baudRateIndex: 0
   isConnected: 0
-  motorMode: not started
+  motorMode: -
   torque: 0
   speed: 0
   position: 0
