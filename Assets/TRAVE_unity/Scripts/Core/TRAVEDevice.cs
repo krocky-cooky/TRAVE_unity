@@ -40,7 +40,7 @@ namespace TRAVE
             }   
         }
 
-        public float Torque
+        public float torque
         {
             get
             {
@@ -48,7 +48,7 @@ namespace TRAVE
             }
         }
 
-        public float Speed
+        public float speed
         {
             get
             {
@@ -56,7 +56,7 @@ namespace TRAVE
             }
         }
 
-        public float Position 
+        public float position 
         {
             get 
             {
@@ -64,7 +64,7 @@ namespace TRAVE
             }
         }
 
-        public float IntegrationAngle 
+        public float integrationAngle 
         {
             get 
             {
