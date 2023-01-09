@@ -149,7 +149,7 @@ namespace TRAVE
         }
 
         //<sammary> 速度指令モードに変更し、スピード値をセットする </sammary>
-        public void SetSpeedMode(float speed, float trqLimit = 2.0f)
+        public void SetSpeedMode(float speed, float trqLimit = 6.0f)
         {
             _dataToSend.target = "spd";
             if(speed > _maxSpeed)
