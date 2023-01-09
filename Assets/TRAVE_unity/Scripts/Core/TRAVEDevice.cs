@@ -9,14 +9,14 @@ namespace TRAVE
         private static TRAVEDevice _device = new TRAVEDevice();
 
         private double MIN_SENDING_INTERVAL = 100.0;
+        private string MOTOR_COMMAND_PREFIX = "m";
+        private string COVNVERTER_COMMAND_PREFIX = "p";
 
         private CommunicationType _communicationType;
         private CommunicationBase _communicationBase;
         private TRAVESendingFormat _currentMotorState = new TRAVESendingFormat();
         private TRAVESendingFormat _dataToSend = new TRAVESendingFormat();
         private DateTime _timeOfPreviousSend;
-        private string _motorCommandPrefix = "m";
-        private string _converterCommandPrefix = "p";
         private float _maxTorque;
         private float _maxSpeed;
     
@@ -163,25 +163,25 @@ namespace TRAVE
 
         public bool TurnOnMotor()
         {
-            string command = _motorCommandPrefix + "1";
+            string command = MOTOR_COMMAND_PREFIX + "1";
             return _communicationBase.SendString(command);
         }
 
         public bool TurnOffMotor()
         {
-            string command = _motorCommandPrefix + "0";
+            string command = MOTOR_COMMAND_PREFIX + "0";
             return _communicationBase.SendString(command);
         }
 
         public bool TurnOnConverter()
         {
-            string command = _converterCommandPrefix + "1";
+            string command = COVNVERTER_COMMAND_PREFIX + "1";
             return _communicationBase.SendString(command);
         }
 
         public bool TurnOffConverter()
         {
-            string command = _converterCommandPrefix + "0";
+            string command = COVNVERTER_COMMAND_PREFIX + "0";
             return _communicationBase.SendString(command);
         }
 
