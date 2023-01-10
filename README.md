@@ -16,7 +16,7 @@ Download unity package from [here](https://github.com/krocky-cooky/TRAVE_unity/r
 ![Inspector of the prefab](./Image/inspector_image.png)
  Set up communication parameters.
 ### Operate from scripts
-``` C#
+``` csharp
 using UnityEngine;
 using TRAVE;
 
@@ -40,5 +40,68 @@ public class SampleClass : MonoBehaviour
   }
  }
 ```
+## API
+### `TRAVEDevice`
+Device operation API.
+
+#### `static TRAVEDevice <TRAVEDevice>.GetDevice()`
+Returns singleton instance of _TRAVEDevice_.
+_TRAVEDevice_ instance have to be initialized with this method.
+##### Returns
+- **out**: TRAVEDevice
+Singleton instance of _TRAVEDevice_.
+```csharp
+public class SampleClass 
+{
+  TRAVEDevice device = TRAVEDevice.GetDevice();
+}
+```
+
+#### `bool <TRAVEDevice>.ReConnectToDevice()`
+Reconnect to TRAVE device.
+##### Returns
+- **out**: bool
+if a connection has been made.
+
+#### `void <TRAVEDevice>.SetTorqueMode()`
+Set motor to torque mode and enter torque. (Change will not applied without execution of `<TRAVEDevice>.Apply()` method)
+##### Parameters
+- **torque**: float
+- **spdLimit**: float,optional
+Maximun value of speed.[default: 10.0f]
+
+#### `void <TRAVEDevice>.SetSpeedMode()`
+Set motor to speed mode and enter speed. (Change will not applied without execution of `<TRAVEDevice>.Apply()` method)
+##### Parameters
+- **speed**: float
+- **trqLimit**: float,optional
+Maximun value of torque.[default: 6.0f]
+
+#### `bool <TRAVEDevice>.Apply()` 
+Apply changes to TRAVE hardware device.
+This method cannot be call more than 10Hz.
+##### Returns
+- **out**: bool
+If settings are successfully applied.
+
+#### `bool <TRAVEDevice>.isConnected`
+if the connection between PC and TRAVE device is made.
+
+#### `string <TRAVEDevice>.motorMode`
+Current motor mode.
+Returns either "Torque Mode" or "Speed Mode".
+
+#### `float <TRAVEDevice>.torque`
+Current torque of the motor.
+
+#### `float <TRAVEDevice>.speed`
+Current speed of the motor.
+
+#### `float <TRAVEDevice>.position`
+Current position of the motor.
+
+#### `float <TRAVEDevice>.integrationAngle`
+Current integration angle of the motor.
+
 ## License
 [MIT License](https://github.com/krocky-cooky/TRAVE_unity/blob/main/LICENSE)
