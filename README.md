@@ -45,10 +45,10 @@ public class SampleClass : MonoBehaviour
 Device operation API.
 
 #### `static TRAVEDevice <TRAVEDevice>.GetDevice()`
-Returns singleton instance of _TRAVEDevice_.
+Returns singleton instance of _TRAVEDevice_.  
 _TRAVEDevice_ instance have to be initialized with this method.
 ##### Returns
-- **out**: TRAVEDevice
+- **out**: TRAVEDevice  
 Singleton instance of _TRAVEDevice_.
 ```csharp
 public class SampleClass 
@@ -60,28 +60,28 @@ public class SampleClass
 #### `bool <TRAVEDevice>.ReConnectToDevice()`
 Reconnect to TRAVE device.
 ##### Returns
-- **out**: bool
+- **out**: bool  
 if a connection has been made.
 
 #### `void <TRAVEDevice>.SetTorqueMode()`
 Set motor to torque mode and enter torque. (Change will not applied without execution of `<TRAVEDevice>.Apply()` method)
 ##### Parameters
 - **torque**: float
-- **spdLimit**: float,optional
+- **spdLimit**: float,optional  
 Maximun value of speed.[default: 10.0f]
 
 #### `void <TRAVEDevice>.SetSpeedMode()`
 Set motor to speed mode and enter speed. (Change will not applied without execution of `<TRAVEDevice>.Apply()` method)
 ##### Parameters
 - **speed**: float
-- **trqLimit**: float,optional
+- **trqLimit**: float,optional  
 Maximun value of torque.[default: 6.0f]
 
 #### `bool <TRAVEDevice>.Apply()` 
-Apply changes to TRAVE hardware device.
+Apply changes to TRAVE hardware device.  
 This method cannot be call more than 10Hz.
 ##### Returns
-- **out**: bool
+- **out**: bool  
 If settings are successfully applied.
 
 #### `bool <TRAVEDevice>.isConnected`
