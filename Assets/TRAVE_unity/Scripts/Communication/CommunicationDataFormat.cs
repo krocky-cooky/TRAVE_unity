@@ -14,6 +14,7 @@ namespace TRAVE
         public float spd;
         public float spdLimit;
         public float trqLimit;
+        public float spdLimitLiftup;
 
         public TRAVESendingFormat()
         {
@@ -22,6 +23,7 @@ namespace TRAVE
             spd = -0.1f;
             trqLimit = 6.0f;
             spdLimit = 6.0f;
+            spdLimitLiftup = 2.0f;
         }
 
 

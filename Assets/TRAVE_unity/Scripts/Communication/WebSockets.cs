@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using WebSocketSharp;
 using TRAVE;
 
 
@@ -8,22 +9,35 @@ namespace TRAVE_unity
 {
     public class WebSockets : CommunicationBase 
     {
+        private WebSocket _socket;
+        private string _targetPrivateIP;
+        private string _receivedString = "";
+        private TRAVEReceivingFormat _receivedData;
+
+        private TRAVELogger _logger = TRAVELogger.GetInstance;
 
         public override bool isConnected
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
         public override void Start()
         {
+            _socket = new WebSocket(_targetPrivateIP);
+            Connect();
             
         }
 
         public override void Connect()
         {
+            if(isConnected)
+            {
+                _logger.writeLog("Websocket connection has already been established.", TRAVELogger.LogLevel.Info );
+                return;
+            }
             
         }
 
@@ -54,7 +68,7 @@ namespace TRAVE_unity
 
         public override string GetReceivedString()
         {
-            return "";
+            return _receivedString;
         }
 
         public override bool SendData(TRAVESendingFormat seningData)
