@@ -68,7 +68,10 @@ Set motor to torque mode and enter torque. (Change will not applied without exec
 ##### Parameters
 - **torque**: float
 - **spdLimit**: float,optional  
-Maximun value of speed.[default: 10.0f]
+Maximun value of speed. [default: 10.0f]
+- **spdLimitLiftup**: float,optional
+Maximun value of liftup speed. [default: 10.0f]
+
 
 #### `void <TRAVEDevice>.SetSpeedMode()`
 Set motor to speed mode and enter speed. (Change will not applied without execution of `<TRAVEDevice>.Apply()` method)

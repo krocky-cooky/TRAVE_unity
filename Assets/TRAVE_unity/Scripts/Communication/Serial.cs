@@ -59,7 +59,7 @@ namespace TRAVE_unity
 
             if(isConnected)
             {
-                _logger.writeLog("Serial Port has Already Opened.", TRAVELogger.LogLevel.Info);
+                _logger.writeLog("Serial Port has already opened.", TRAVELogger.LogLevel.Info);
                 return;
             }
 

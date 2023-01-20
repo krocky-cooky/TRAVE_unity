@@ -136,7 +136,7 @@ namespace TRAVE
         }
         
 
-        public void SetTorqueMode(float torque, float spdLimit = 10.0f)
+        public void SetTorqueMode(float torque, float spdLimit = 10.0f, float spdLimitLiftup = 10.0f)
         {
             _dataToSend.target = "trq";
             if(torque > _maxTorque)
@@ -146,6 +146,7 @@ namespace TRAVE
             }
             _dataToSend.trq = torque;
             _dataToSend.spdLimit = spdLimit;
+            _dataToSend.spdLimitLiftup = spdLimitLiftup;
         }
 
         //<sammary> 速度指令モードに変更し、スピード値をセットする </sammary>
