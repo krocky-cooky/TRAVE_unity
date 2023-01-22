@@ -69,7 +69,7 @@ Set motor to torque mode and enter torque. (Change will not be applied without e
 - **torque**: float
 - **spdLimit**: float,optional  
 Maximun value of speed. [default: 10.0f]
-- **spdLimitLiftup**: float,optional
+- **spdLimitLiftup**: float,optional  
 Maximun value of liftup speed. [default: 10.0f]
 
 
