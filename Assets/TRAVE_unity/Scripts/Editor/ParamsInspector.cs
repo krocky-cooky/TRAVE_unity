@@ -17,6 +17,11 @@ namespace TRAVE_unity
         SerializedProperty printMessage;
         SerializedProperty printSerialMessage;
         SerializedProperty sendingText;
+        SerializedProperty operationType;
+        SerializedProperty torque;
+        SerializedProperty speed;
+        SerializedProperty speedLimit;
+        SerializedProperty torqueLimit;
 
         //For Serial.cs
         SerializedProperty portName;
@@ -47,6 +52,11 @@ namespace TRAVE_unity
             maxTorque = serializedObject.FindProperty(nameof(settingParams.maxTorque));
             maxSpeed = serializedObject.FindProperty(nameof(settingParams.maxSpeed));
             sendingText = serializedObject.FindProperty(nameof(settingParams.sendingText));
+            operationType = serializedObject.FindProperty(nameof(settingParams.operationType));
+            torque = serializedObject.FindProperty(nameof(settingParams.torqueModeTorque));
+            speed = serializedObject.FindProperty(nameof(settingParams.speedModeSpeed));
+            speedLimit = serializedObject.FindProperty(nameof(settingParams.torqueModeSpeedLimit));
+            torqueLimit = serializedObject.FindProperty(nameof(settingParams.speedModeTorqueLimit));
 
             portName = serializedObject.FindProperty(nameof(settingParams.portName));
             portNameIndex = serializedObject.FindProperty(nameof(settingParams.portNameIndex));
@@ -118,8 +128,11 @@ namespace TRAVE_unity
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.PropertyField(maxTorque);
             EditorGUILayout.PropertyField(maxSpeed);
+            GUIHelper.EndVerticalPadded();
             if(EditorApplication.isPlaying)
             {
+                EditorGUILayout.LabelField("Realtime operation", centeredLabelStyle);
+                GUIHelper.BeginVerticalPadded();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.PropertyField(sendingText);
                 if(GUILayout.Button("Send Text"))
@@ -147,8 +160,37 @@ namespace TRAVE_unity
                     settingParams.TurnOffConverter();
                 }
                 EditorGUILayout.EndHorizontal();
+
+                //motor operation command
+                EditorGUILayout.Space(10);
+                GUIHelper.BeginVerticalPadded();
+                EditorGUILayout.PropertyField(operationType);
+                if(settingParams.operationType == DeviceOperationType.Torque)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.PropertyField(torque,new GUIContent("Torque"));
+                    EditorGUILayout.PropertyField(speedLimit,new GUIContent("Speed Limit"));
+                    EditorGUILayout.EndHorizontal();
+                    if(GUILayout.Button("Apply", turnOnButtonStyle))
+                    {
+                        settingParams.Apply();
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.PropertyField(speed,new GUIContent("Speed"));
+                    EditorGUILayout.PropertyField(torqueLimit, new GUIContent("Torque Limit"));
+                    EditorGUILayout.EndHorizontal();
+                    if(GUILayout.Button("Apply", turnOnButtonStyle))
+                    {
+                        settingParams.Apply();
+                    }
+                }
+                GUIHelper.EndVerticalPadded();
+                GUIHelper.EndVerticalPadded();
             }
-            GUIHelper.EndVerticalPadded();
+            
 
             switch(settingParams.communicationType)
             {

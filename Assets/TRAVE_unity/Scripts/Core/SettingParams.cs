@@ -11,6 +11,12 @@ namespace TRAVE_unity
         Bluetooth,
     }
 
+    public enum DeviceOperationType
+    {
+        Torque,
+        Speed
+    }
+
 
     public class SettingParams : MonoBehaviour
     {
@@ -21,6 +27,11 @@ namespace TRAVE_unity
         public float maxTorque = 4.0f;
         public float maxSpeed = 5.0f;
         public string sendingText;
+        public DeviceOperationType operationType = DeviceOperationType.Torque;
+        public float torqueModeTorque = 0.0f;
+        public float torqueModeSpeedLimit = 1.0f;
+        public float speedModeSpeed = 0.0f;
+        public float speedModeTorqueLimit = 1.0f;
 
         public string portName;
         public int portNameIndex;
@@ -83,6 +94,19 @@ namespace TRAVE_unity
         public void TurnOffConverter()
         {
             _device.TurnOffConverter();
+        }
+
+        public void Apply()
+        {
+            if(operationType == DeviceOperationType.Torque)
+            {
+                _device.SetTorqueMode(torqueModeTorque, torqueModeSpeedLimit);
+            }
+            else
+            {
+                _device.SetSpeedMode(speedModeSpeed, speedModeTorqueLimit);
+            }
+            _device.Apply();
         }
     }
 }
