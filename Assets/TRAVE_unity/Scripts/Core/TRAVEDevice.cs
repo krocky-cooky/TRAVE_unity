@@ -8,7 +8,7 @@ namespace TRAVE
     {
         private static TRAVEDevice _device = new TRAVEDevice();
 
-        private double MIN_SENDING_INTERVAL = 100.0;
+        private double MIN_SENDING_INTERVAL = 200.0;
         private string MOTOR_COMMAND_PREFIX = "m";
         private string COVNVERTER_COMMAND_PREFIX = "p";
 
