@@ -13,7 +13,7 @@ Download unity package from [here](https://github.com/krocky-cooky/TRAVE_unity/r
 
 ## Usage
 ### Place the prefab in a scene
-![Inspector of the prefab](./Image/inspector_image.png)
+![Inspector of the prefab](./Image/editor_image.png)
  Set up communication parameters.
 ### Operate from scripts
 ``` csharp
