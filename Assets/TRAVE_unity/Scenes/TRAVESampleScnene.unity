@@ -320,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6798241760927372484, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
       propertyPath: portNameIndex
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6798241760927372484, guid: 1d96ce5bf4bacd74dab0e77944e1780b, type: 3}
       propertyPath: communicationType

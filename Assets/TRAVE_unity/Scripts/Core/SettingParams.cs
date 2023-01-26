@@ -30,6 +30,7 @@ namespace TRAVE_unity
         public DeviceOperationType operationType = DeviceOperationType.Torque;
         public float torqueModeTorque = 0.0f;
         public float torqueModeSpeedLimit = 1.0f;
+        public float torqueModeSpeedLimitLiftup = 10.0f;
         public float speedModeSpeed = 0.0f;
         public float speedModeTorqueLimit = 1.0f;
 
@@ -100,7 +101,7 @@ namespace TRAVE_unity
         {
             if(operationType == DeviceOperationType.Torque)
             {
-                _device.SetTorqueMode(torqueModeTorque, torqueModeSpeedLimit);
+                _device.SetTorqueMode(torqueModeTorque, torqueModeSpeedLimit, torqueModeSpeedLimitLiftup);
             }
             else
             {

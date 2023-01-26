@@ -21,6 +21,7 @@ namespace TRAVE_unity
         SerializedProperty torque;
         SerializedProperty speed;
         SerializedProperty speedLimit;
+        SerializedProperty speedLimitLiftup;
         SerializedProperty torqueLimit;
 
         //For Serial.cs
@@ -56,6 +57,7 @@ namespace TRAVE_unity
             torque = serializedObject.FindProperty(nameof(settingParams.torqueModeTorque));
             speed = serializedObject.FindProperty(nameof(settingParams.speedModeSpeed));
             speedLimit = serializedObject.FindProperty(nameof(settingParams.torqueModeSpeedLimit));
+            speedLimitLiftup = serializedObject.FindProperty(nameof(settingParams.torqueModeSpeedLimitLiftup));
             torqueLimit = serializedObject.FindProperty(nameof(settingParams.speedModeTorqueLimit));
 
             portName = serializedObject.FindProperty(nameof(settingParams.portName));
@@ -167,10 +169,9 @@ namespace TRAVE_unity
                 EditorGUILayout.PropertyField(operationType);
                 if(settingParams.operationType == DeviceOperationType.Torque)
                 {
-                    EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.PropertyField(torque,new GUIContent("Torque"));
                     EditorGUILayout.PropertyField(speedLimit,new GUIContent("Speed Limit"));
-                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.PropertyField(speedLimitLiftup,new GUIContent("Speed Limit Liftup"));
                     if(GUILayout.Button("Apply", turnOnButtonStyle))
                     {
                         settingParams.Apply();
@@ -178,10 +179,8 @@ namespace TRAVE_unity
                 }
                 else
                 {
-                    EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.PropertyField(speed,new GUIContent("Speed"));
                     EditorGUILayout.PropertyField(torqueLimit, new GUIContent("Torque Limit"));
-                    EditorGUILayout.EndHorizontal();
                     if(GUILayout.Button("Apply", turnOnButtonStyle))
                     {
                         settingParams.Apply();
