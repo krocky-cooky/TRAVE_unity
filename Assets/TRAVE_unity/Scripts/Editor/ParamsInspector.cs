@@ -131,6 +131,37 @@ namespace TRAVE_unity
             EditorGUILayout.PropertyField(maxTorque);
             EditorGUILayout.PropertyField(maxSpeed);
             GUIHelper.EndVerticalPadded();
+            
+            
+
+            switch(settingParams.communicationType)
+            {
+                case CommunicationType.Serial:
+                    EditorGUILayout.LabelField("Serial Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    if(portNames.Length <= portNameIndex.intValue || portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length] != portName.stringValue)
+                    {
+                        portNameIndex.intValue = -1;
+                    }
+                    portNameIndex.intValue = EditorGUILayout.Popup("Port Name", portNameIndex.intValue, portNames);
+                    
+                    portName.stringValue = portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length];
+                    baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRate.intValue, baudRateLabels, baudRateValues);
+                    GUIHelper.EndVerticalPadded();
+                    break;
+                case CommunicationType.WebSockets:
+                    EditorGUILayout.LabelField("Websocket Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    GUIHelper.EndVerticalPadded();
+                    break;
+                case CommunicationType.Bluetooth:
+                    EditorGUILayout.LabelField("Bluetooth Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    GUIHelper.EndVerticalPadded();
+                    break;
+
+            }
+
             if(EditorApplication.isPlaying)
             {
                 EditorGUILayout.LabelField("Realtime operation", centeredLabelStyle);
@@ -188,35 +219,6 @@ namespace TRAVE_unity
                 }
                 GUIHelper.EndVerticalPadded();
                 GUIHelper.EndVerticalPadded();
-            }
-            
-
-            switch(settingParams.communicationType)
-            {
-                case CommunicationType.Serial:
-                    EditorGUILayout.LabelField("Serial Communication Settings", centeredLabelStyle);
-                    GUIHelper.BeginVerticalPadded();
-                    if(portNames.Length <= portNameIndex.intValue || portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length] != portName.stringValue)
-                    {
-                        portNameIndex.intValue = -1;
-                    }
-                    portNameIndex.intValue = EditorGUILayout.Popup("Port Name", portNameIndex.intValue, portNames);
-                    
-                    portName.stringValue = portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length];
-                    baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRate.intValue, baudRateLabels, baudRateValues);
-                    GUIHelper.EndVerticalPadded();
-                    break;
-                case CommunicationType.WebSockets:
-                    EditorGUILayout.LabelField("Websocket Communication Settings", centeredLabelStyle);
-                    GUIHelper.BeginVerticalPadded();
-                    GUIHelper.EndVerticalPadded();
-                    break;
-                case CommunicationType.Bluetooth:
-                    EditorGUILayout.LabelField("Bluetooth Communication Settings", centeredLabelStyle);
-                    GUIHelper.BeginVerticalPadded();
-                    GUIHelper.EndVerticalPadded();
-                    break;
-
             }
 
             EditorGUILayout.LabelField("TRAVE Device Monitoring", centeredLabelStyle);
