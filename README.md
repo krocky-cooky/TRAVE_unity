@@ -82,7 +82,10 @@ Maximun value of torque.[default: 6.0f]
 
 #### `bool <TRAVEDevice>.Apply()` 
 Apply changes to TRAVE hardware device.  
-This method cannot be call more than 10Hz.
+This method cannot be call more than 5Hz.
+##### Parameters
+- **forceChange**: bool,optional
+If true, force application regardless of the transmission interval.[default: false]
 ##### Returns
 - **out**: bool  
 If settings are successfully applied.

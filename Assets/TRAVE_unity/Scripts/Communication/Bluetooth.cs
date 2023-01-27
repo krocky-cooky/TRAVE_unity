@@ -19,6 +19,11 @@ namespace TRAVE_unity
             }
         }
 
+        public override void Awake()
+        {
+            
+        }
+
 
         public override void Start()
         {
