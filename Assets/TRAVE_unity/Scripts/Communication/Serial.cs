@@ -30,10 +30,14 @@ namespace TRAVE_unity
             }
         }
 
-        public override void Start()
+        public override void Awake()
         {
             _serialPort = new SerialPort(_portName, _baudRate, Parity.None, 8, StopBits.One);
             Connect();
+        }
+
+        public override void Start()
+        {
         }
 
 

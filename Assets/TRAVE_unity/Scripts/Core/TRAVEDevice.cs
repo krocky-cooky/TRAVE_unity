@@ -89,6 +89,7 @@ namespace TRAVE
             return _device;
         }
 
+
         internal void _masterMethod_AllocateParams(SettingParams settingParams)
         {
             // allocation of parameters
@@ -108,6 +109,11 @@ namespace TRAVE
             _maxTorque = settingParams.maxTorque;
             _maxSpeed = settingParams.maxSpeed;
             _communicationBase.AllocateParams(settingParams);
+        }
+
+        internal void _masterMethod_Awake()
+        {
+            _communicationBase.Awake();
         }
 
         internal void _masterMethod_Start()
@@ -199,9 +205,9 @@ namespace TRAVE
         }
 
         //<sammary> モーターに変更を適用する </sammary>
-        public bool Apply()
+        public bool Apply(bool forceChange = false)
         {
-            if(CheckSendingInterval())
+            if(CheckSendingInterval() || forceChange)
             {
                 _currentMotorState = _dataToSend;
                 if(_communicationBase.SendData(_dataToSend))

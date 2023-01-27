@@ -9,6 +9,8 @@ namespace TRAVE_unity
     {
         public abstract bool isConnected{get;}
 
+        public abstract void Awake();
+
         public abstract void Start();
 
         public abstract void Connect();

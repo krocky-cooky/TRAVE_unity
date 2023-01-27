@@ -18,6 +18,7 @@ namespace TRAVE_unity
             SettingParams settingParams = GetComponent<SettingParams>();
            _trave._masterMethod_AllocateParams(settingParams);
            _logger.printMessage = settingParams.printMessage;
+           _trave._masterMethod_Awake();
 
         }
 
