@@ -33,7 +33,7 @@ namespace TRAVE_unity
 
         public abstract bool SendString(string command);
 
-        public abstract void AllocateParams(SettingParams settingParams);
+        public abstract void AllocateParams(Device.SettingParams settingParams);
 
 
     }

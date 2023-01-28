@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
-    [CustomEditor(typeof(SettingParams))]
+    [CustomEditor(typeof(Device.SettingParams))]
     public class ParamsInspector : Editor 
     {
         SettingParams settingParams;
@@ -45,7 +45,7 @@ namespace TRAVE_unity
 
         public void OnEnable()
         {
-            settingParams = target as SettingParams;
+            settingParams = target as Device.SettingParams;
 
             communicationType = serializedObject.FindProperty(nameof(settingParams.communicationType));
             printMessage = serializedObject.FindProperty(nameof(settingParams.printMessage));

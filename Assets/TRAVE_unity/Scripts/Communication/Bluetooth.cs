@@ -75,7 +75,7 @@ namespace TRAVE_unity
             return false;
         }
 
-        public override void AllocateParams(SettingParams settingParams)
+        public override void AllocateParams(Device.SettingParams settingParams)
         {
 
         }

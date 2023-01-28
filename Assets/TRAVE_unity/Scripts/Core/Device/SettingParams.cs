@@ -1,7 +1,7 @@
 using UnityEngine;
 using TRAVE;
 
-namespace TRAVE_unity
+namespace TRAVE_unity.Device
 {
 
     public enum CommunicationType
@@ -18,7 +18,7 @@ namespace TRAVE_unity
     }
 
 
-    public class SettingParams : MonoBehaviour
+    public class SettingParams : SettingParamsBase
     {
         //セットアップ用変数群
         public CommunicationType communicationType = CommunicationType.Serial;

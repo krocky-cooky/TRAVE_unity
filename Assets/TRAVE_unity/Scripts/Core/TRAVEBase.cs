@@ -22,5 +22,15 @@ namespace TRAVE_unity
         }
 
         protected TRAVEBase() {}
+
+        public abstract void _masterMethod_Awake();
+
+        public abstract void _masterMethod_Start();
+
+        public abstract void _masterMethod_Update();
+
+        public abstract void _masterMethod_OnApplicationQuit();
+
+        public abstract void _masterMethod_AllocateParams(SettingParamsBase settingParams);
     }
 }

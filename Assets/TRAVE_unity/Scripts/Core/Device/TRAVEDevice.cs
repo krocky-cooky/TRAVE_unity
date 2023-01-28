@@ -78,7 +78,7 @@ namespace TRAVE
         }
 
 
-        internal void _masterMethod_AllocateParams(SettingParams settingParams)
+        public override void _masterMethod_AllocateParams(Device.SettingParams settingParams)
         {
             // allocation of parameters
             _communicationType = settingParams.communicationType;
@@ -99,26 +99,26 @@ namespace TRAVE
             _communicationBase.AllocateParams(settingParams);
         }
 
-        internal void _masterMethod_Awake()
+        public override void _masterMethod_Awake()
         {
             _communicationBase.Awake();
         }
 
-        internal void _masterMethod_Start()
+        public override void _masterMethod_Start()
         {
             _communicationBase.Start();
             _timeOfPreviousSend = DateTime.Now;
             
         }
 
-        internal void _masterMethod_Update()
+        public override void _masterMethod_Update()
         {
             _communicationBase.Update();
             currentProfile = GetReceivedData();
         }
 
 
-        internal void _masterMethod_OnApplicationQuit()
+        public override void _masterMethod_OnApplicationQuit()
         {
             _communicationBase.OnApplicationQuit();
         }

@@ -88,7 +88,7 @@ namespace TRAVE_unity
         }
 
 
-        public override void AllocateParams(SettingParams settingParams)
+        public override void AllocateParams(Device.SettingParams settingParams)
         {
             _portName = settingParams.portName;
             _baudRate = settingParams.baudRate;
