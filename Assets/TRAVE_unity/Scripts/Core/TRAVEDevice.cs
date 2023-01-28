@@ -4,10 +4,8 @@ using System;
 
 namespace TRAVE
 {
-    public class TRAVEDevice
+    public class TRAVEDevice : TRAVEBase<TRAVEDevice>
     {
-        private static TRAVEDevice _device = new TRAVEDevice();
-
         private double MIN_SENDING_INTERVAL = 200.0;
         private string MOTOR_COMMAND_PREFIX = "m";
         private string COVNVERTER_COMMAND_PREFIX = "p";
@@ -20,7 +18,6 @@ namespace TRAVE
         private float _maxTorque;
         private float _maxSpeed;
     
-        private TRAVELogger _logger = TRAVELogger.GetInstance;
 
         public TRAVEReceivingFormat currentProfile{ get;set; } = new TRAVEReceivingFormat();
 
@@ -74,19 +71,10 @@ namespace TRAVE
 
 
 
-        private TRAVEDevice()
-        {  
-        }
-
         private bool CheckSendingInterval()
         {
             int comparison = DateTime.Now.CompareTo(_timeOfPreviousSend.AddMilliseconds(MIN_SENDING_INTERVAL));
             return comparison > 0;
-        }
-
-        public static TRAVEDevice GetDevice()
-        {
-            return _device;
         }
 
 
