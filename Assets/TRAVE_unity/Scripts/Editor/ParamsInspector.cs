@@ -12,6 +12,7 @@ namespace TRAVE_unity
         SettingParams settingParams;
 
         SerializedProperty deviceCommunicationType;
+        SerializedProperty forceGaugeCommunicationType;
         SerializedProperty maxTorque;
         SerializedProperty maxSpeed;
         SerializedProperty printMessage;
@@ -29,6 +30,10 @@ namespace TRAVE_unity
         SerializedProperty devicePortNameIndex;
         SerializedProperty deviceBaudRate;
         
+        SerializedProperty forceGaugePortName;
+        SerializedProperty forceGaugePortNameIndex;
+        SerializedProperty forceGaugeBaudRate;
+
         private DeviceMaster _deviceMaster;
         private ForceGaugeMaster _forceGaugeMaster;
 
@@ -51,6 +56,7 @@ namespace TRAVE_unity
             settingParams = target as SettingParams;
 
             deviceCommunicationType = serializedObject.FindProperty(nameof(settingParams.deviceCommunicationType));
+            forceGaugeCommunicationType = serializedObject.FindProperty(nameof(settingParams.forceGaugeCommunicationType));
             printMessage = serializedObject.FindProperty(nameof(settingParams.printMessage));
             printSerialMessage = serializedObject.FindProperty(nameof(settingParams.printSerialMessage));
             maxTorque = serializedObject.FindProperty(nameof(settingParams.maxTorque));
@@ -66,6 +72,9 @@ namespace TRAVE_unity
             devicePortName = serializedObject.FindProperty(nameof(settingParams.devicePortName));
             devicePortNameIndex = serializedObject.FindProperty(nameof(settingParams.devicePortNameIndex));
             deviceBaudRate = serializedObject.FindProperty(nameof(settingParams.deviceBaudRate));
+            forceGaugePortName = serializedObject.FindProperty(nameof(settingParams.forceGaugePortName));
+            forceGaugePortNameIndex = serializedObject.FindProperty(nameof(settingParams.forceGaugePortNameIndex));
+            forceGaugeBaudRate = serializedObject.FindProperty(nameof(settingParams.forceGaugeBaudRate));
             // isConnected = serializedObject.FindProperty(nameof(settingParams.isConnected));
             // motorMode = serializedObject.FindProperty(nameof(settingParams.motorMode));
             // torque = serializedObject.FindProperty(nameof(settingParams.torque));
@@ -256,8 +265,51 @@ namespace TRAVE_unity
 
         private void RenderForceGaugeInspector()
         {
+            EditorGUILayout.LabelField("General Settings", centeredLabelStyle);
+            GUIHelper.BeginVerticalPadded();
+            EditorGUILayout.PropertyField(forceGaugeCommunicationType);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(printMessage);
+            if(settingParams.printMessage)
+            {
+                EditorGUILayout.PropertyField(printSerialMessage);
+            }
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.PropertyField(maxTorque);
+            EditorGUILayout.PropertyField(maxSpeed);
+            GUIHelper.EndVerticalPadded();
+            
             
 
+            switch(settingParams.forceGaugeCommunicationType)
+            {
+                case CommunicationType.Serial:
+                    EditorGUILayout.LabelField("Serial Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    if(portNames.Length <= forceGaugePortNameIndex.intValue || portNames[(forceGaugePortNameIndex.intValue+portNames.Length)%portNames.Length] != forceGaugePortName.stringValue)
+                    {
+                        forceGaugePortNameIndex.intValue = -1;
+                    }
+                    forceGaugePortNameIndex.intValue = EditorGUILayout.Popup("Port Name", forceGaugePortNameIndex.intValue, portNames);
+                    
+                    forceGaugePortName.stringValue = portNames[(forceGaugePortNameIndex.intValue+portNames.Length)%portNames.Length];
+                    forceGaugeBaudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", forceGaugeBaudRate.intValue, baudRateLabels, baudRateValues);
+                    GUIHelper.EndVerticalPadded();
+                    break;
+                case CommunicationType.WebSockets:
+                    EditorGUILayout.LabelField("Websocket Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    GUIHelper.EndVerticalPadded();
+                    break;
+                case CommunicationType.Bluetooth:
+                    EditorGUILayout.LabelField("Bluetooth Communication Settings", centeredLabelStyle);
+                    GUIHelper.BeginVerticalPadded();
+                    GUIHelper.EndVerticalPadded();
+                    break;
+
+            
+
+            }
         }
 
         private void RenderTableRow(string label, string value, GUIStyle labelStyle, GUIStyle valueStyle)

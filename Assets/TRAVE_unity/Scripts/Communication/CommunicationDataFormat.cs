@@ -13,7 +13,7 @@ namespace TRAVE
 
     public class TRAVESendingFormat
     {
-        
+        //device用
         //トルク指令か速度指令か
         public string target;
         public float trq;
@@ -21,6 +21,8 @@ namespace TRAVE
         public float spdLimit;
         public float trqLimit;
         public float spdLimitLiftup;
+
+        
 
         public TRAVESendingFormat()
         {
@@ -43,6 +45,9 @@ namespace TRAVE
         public float pos;
         public float integrationAngle;
 
+        //forceGauge用
+        public float force;
+
         public TRAVEReceivingFormat()
         {
             target = "trq";
@@ -50,6 +55,7 @@ namespace TRAVE
             spd = 0.0f;
             pos = 0.0f;
             integrationAngle = 0.0f;
+            force = 0.0f;
         }
     }
 }

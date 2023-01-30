@@ -100,7 +100,9 @@ namespace TRAVE_unity
             }
             else if(_deviceType == TrainingDeviceType.ForceGauge)
             {
-
+                _portName = settingParams.forceGaugePortName;
+                _baudRate = settingParams.forceGaugeBaudRate;
+                _printSerialMessage = settingParams.printSerialMessage;
             }
         }
         

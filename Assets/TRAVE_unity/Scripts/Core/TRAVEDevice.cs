@@ -98,6 +98,7 @@ namespace TRAVE
             _maxTorque = settingParams.maxTorque;
             _maxSpeed = settingParams.maxSpeed;
             _communicationBase.AllocateParams(settingParams);
+            Debug.Log(settingParams.printMessage);
         }
 
         public override void _masterMethod_Awake()

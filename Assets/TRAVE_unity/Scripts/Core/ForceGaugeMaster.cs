@@ -9,18 +9,19 @@ namespace TRAVE_unity
 {
     public class ForceGaugeMaster : MonoBehaviour 
     {
-        
+        private TRAVEForceGauge _forceGauge = TRAVEForceGauge.GetDevice();
         private TRAVELogger _logger = TRAVELogger.GetInstance;
 
 
-        // void Awake()
-        // {
-        //     SettingParams settingParams = GetComponent<SettingParams>();
-        //    _trave._masterMethod_AllocateParams(settingParams);
-        //    _logger.printMessage = settingParams.printMessage;
-        //    _trave._masterMethod_Awake();
+        void Awake()
+        {
+            SettingParams settingParams = GetComponent<SettingParams>();
+           _forceGauge._masterMethod_AllocateParams(settingParams);
+           _logger.printMessage = settingParams.printMessage;
+           _forceGauge._masterMethod_Awake();
+           Debug.Log(settingParams.printMessage);
 
-        // }
+        }
 
 
         // void Start()
