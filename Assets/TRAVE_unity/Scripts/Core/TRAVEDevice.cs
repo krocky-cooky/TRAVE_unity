@@ -78,20 +78,21 @@ namespace TRAVE
         }
 
 
-        public override void _masterMethod_AllocateParams(Device.SettingParams settingParams)
+        public override void _masterMethod_AllocateParams(SettingParams settingParams)
         {
             // allocation of parameters
-            _communicationType = settingParams.communicationType;
+            _communicationType = settingParams.deviceCommunicationType;
+            TrainingDeviceType type = TrainingDeviceType.Device;
             switch(_communicationType)
             {
                 case CommunicationType.Serial:
-                    _communicationBase = new Serial();
+                    _communicationBase = new Serial(type);
                     break;
                 case CommunicationType.WebSockets:
-                    _communicationBase = new WebSockets();
+                    _communicationBase = new WebSockets(type);
                     break;
                 case CommunicationType.Bluetooth:
-                    _communicationBase = new Bluetooth();
+                    _communicationBase = new Bluetooth(type);
                     break;
             }
             _maxTorque = settingParams.maxTorque;

@@ -7,6 +7,13 @@ namespace TRAVE_unity
 {
     public abstract class CommunicationBase
     {
+        protected TrainingDeviceType _deviceType;
+
+        public CommunicationBase(TrainingDeviceType type = TrainingDeviceType.Device)
+        {
+            _deviceType = type;
+        }
+
         public abstract bool isConnected{get;}
 
         public abstract void Awake();
@@ -33,7 +40,7 @@ namespace TRAVE_unity
 
         public abstract bool SendString(string command);
 
-        public abstract void AllocateParams(Device.SettingParams settingParams);
+        public abstract void AllocateParams(SettingParams settingParams);
 
 
     }

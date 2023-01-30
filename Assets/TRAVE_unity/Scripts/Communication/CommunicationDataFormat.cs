@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 namespace TRAVE 
 {
+    public enum TrainingDeviceType 
+    {
+        Device,
+        ForceGauge,
+    }
+
     public class TRAVESendingFormat
     {
         

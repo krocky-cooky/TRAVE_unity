@@ -6,12 +6,12 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
-    [CustomEditor(typeof(Device.SettingParams))]
+    [CustomEditor(typeof(SettingParams))]
     public class ParamsInspector : Editor 
     {
         SettingParams settingParams;
 
-        SerializedProperty communicationType;
+        SerializedProperty deviceCommunicationType;
         SerializedProperty maxTorque;
         SerializedProperty maxSpeed;
         SerializedProperty printMessage;
@@ -25,9 +25,12 @@ namespace TRAVE_unity
         SerializedProperty torqueLimit;
 
         //For Serial.cs
-        SerializedProperty portName;
-        SerializedProperty portNameIndex;
-        SerializedProperty baudRate;
+        SerializedProperty devicePortName;
+        SerializedProperty devicePortNameIndex;
+        SerializedProperty deviceBaudRate;
+        
+        private DeviceMaster _deviceMaster;
+        private ForceGaugeMaster _forceGaugeMaster;
 
 
         int[] baudRateValues = { 9600, 115200 };
@@ -45,9 +48,9 @@ namespace TRAVE_unity
 
         public void OnEnable()
         {
-            settingParams = target as Device.SettingParams;
+            settingParams = target as SettingParams;
 
-            communicationType = serializedObject.FindProperty(nameof(settingParams.communicationType));
+            deviceCommunicationType = serializedObject.FindProperty(nameof(settingParams.deviceCommunicationType));
             printMessage = serializedObject.FindProperty(nameof(settingParams.printMessage));
             printSerialMessage = serializedObject.FindProperty(nameof(settingParams.printSerialMessage));
             maxTorque = serializedObject.FindProperty(nameof(settingParams.maxTorque));
@@ -60,9 +63,9 @@ namespace TRAVE_unity
             speedLimitLiftup = serializedObject.FindProperty(nameof(settingParams.torqueModeSpeedLimitLiftup));
             torqueLimit = serializedObject.FindProperty(nameof(settingParams.speedModeTorqueLimit));
 
-            portName = serializedObject.FindProperty(nameof(settingParams.portName));
-            portNameIndex = serializedObject.FindProperty(nameof(settingParams.portNameIndex));
-            baudRate = serializedObject.FindProperty(nameof(settingParams.baudRate));
+            devicePortName = serializedObject.FindProperty(nameof(settingParams.devicePortName));
+            devicePortNameIndex = serializedObject.FindProperty(nameof(settingParams.devicePortNameIndex));
+            deviceBaudRate = serializedObject.FindProperty(nameof(settingParams.deviceBaudRate));
             // isConnected = serializedObject.FindProperty(nameof(settingParams.isConnected));
             // motorMode = serializedObject.FindProperty(nameof(settingParams.motorMode));
             // torque = serializedObject.FindProperty(nameof(settingParams.torque));
@@ -74,7 +77,12 @@ namespace TRAVE_unity
             for(int i = 0;i < baudRateValues.Length; ++i)
             {
                 baudRateLabels[i] = baudRateValues[i].ToString();
-            }            
+            }  
+
+
+            _deviceMaster = settingParams.GetComponent<DeviceMaster>();
+            _forceGaugeMaster = settingParams.GetComponent<ForceGaugeMaster>();
+
             
         }
 
@@ -118,9 +126,23 @@ namespace TRAVE_unity
             // {
             //     EditorUtility.SetDirty(target);
             // }
+            if(_deviceMaster != null)
+            {
+                RenderDeviceInspector();
+                
+            }
+            if(_forceGaugeMaster != null)
+            {
+                RenderForceGaugeInspector();
+            }
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void RenderDeviceInspector()
+        {
             EditorGUILayout.LabelField("General Settings", centeredLabelStyle);
             GUIHelper.BeginVerticalPadded();
-            EditorGUILayout.PropertyField(communicationType);
+            EditorGUILayout.PropertyField(deviceCommunicationType);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(printMessage);
             if(settingParams.printMessage)
@@ -134,19 +156,19 @@ namespace TRAVE_unity
             
             
 
-            switch(settingParams.communicationType)
+            switch(settingParams.deviceCommunicationType)
             {
                 case CommunicationType.Serial:
                     EditorGUILayout.LabelField("Serial Communication Settings", centeredLabelStyle);
                     GUIHelper.BeginVerticalPadded();
-                    if(portNames.Length <= portNameIndex.intValue || portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length] != portName.stringValue)
+                    if(portNames.Length <= devicePortNameIndex.intValue || portNames[(devicePortNameIndex.intValue+portNames.Length)%portNames.Length] != devicePortName.stringValue)
                     {
-                        portNameIndex.intValue = -1;
+                        devicePortNameIndex.intValue = -1;
                     }
-                    portNameIndex.intValue = EditorGUILayout.Popup("Port Name", portNameIndex.intValue, portNames);
+                    devicePortNameIndex.intValue = EditorGUILayout.Popup("Port Name", devicePortNameIndex.intValue, portNames);
                     
-                    portName.stringValue = portNames[(portNameIndex.intValue+portNames.Length)%portNames.Length];
-                    baudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", baudRate.intValue, baudRateLabels, baudRateValues);
+                    devicePortName.stringValue = portNames[(devicePortNameIndex.intValue+portNames.Length)%portNames.Length];
+                    deviceBaudRate.intValue = EditorGUILayout.IntPopup("Baud Rate", deviceBaudRate.intValue, baudRateLabels, baudRateValues);
                     GUIHelper.EndVerticalPadded();
                     break;
                 case CommunicationType.WebSockets:
@@ -230,8 +252,12 @@ namespace TRAVE_unity
             RenderTableRow("Current Position", settingParams.position.ToString(), monitoringLabelStyle, monitoringValueStyle);
             RenderTableRow("Current Integration Angle", settingParams.integrationAngle.ToString(), monitoringLabelStyle, monitoringValueStyle);
             GUIHelper.EndVerticalPadded();
+        }
 
-            serializedObject.ApplyModifiedProperties();
+        private void RenderForceGaugeInspector()
+        {
+            
+
         }
 
         private void RenderTableRow(string label, string value, GUIStyle labelStyle, GUIStyle valueStyle)

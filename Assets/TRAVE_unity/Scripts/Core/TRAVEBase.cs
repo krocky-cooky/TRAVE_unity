@@ -31,6 +31,6 @@ namespace TRAVE_unity
 
         public abstract void _masterMethod_OnApplicationQuit();
 
-        public abstract void _masterMethod_AllocateParams(SettingParamsBase settingParams);
+        public abstract void _masterMethod_AllocateParams(SettingParams settingParams);
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using TRAVE;
 
-namespace TRAVE_unity.Device
+namespace TRAVE_unity
 {
 
     public enum CommunicationType
@@ -18,10 +18,12 @@ namespace TRAVE_unity.Device
     }
 
 
-    public class SettingParams : SettingParamsBase
+    public class SettingParams : MonoBehaviour
     {
+
+        //TRAVEDevice用
         //セットアップ用変数群
-        public CommunicationType communicationType = CommunicationType.Serial;
+        public CommunicationType deviceCommunicationType = CommunicationType.Serial;
         public bool printMessage = true;
         public bool printSerialMessage = false;
         public float maxTorque = 4.0f;
@@ -34,10 +36,10 @@ namespace TRAVE_unity.Device
         public float speedModeSpeed = 0.0f;
         public float speedModeTorqueLimit = 1.0f;
 
-        public string portName;
-        public int portNameIndex;
-        public int baudRate;
-        public int baudRateIndex;
+        public string devicePortName;
+        public int devicePortNameIndex;
+        public int deviceBaudRate;
+        public int deviceBaudRateIndex;
 
 
         //モニタリング用変数群
@@ -49,12 +51,26 @@ namespace TRAVE_unity.Device
         public float integrationAngle = 0.0f; 
 
 
-        private TRAVEDevice _device;
+        //TRAVEForceGauge用
+        //セットアップ用変数群
+        public CommunicationType forceGaugeCommunicationType = CommunicationType.Serial;
+        public string forceGaugePortName;
+        public int forceGaugePortNameIndex;
+        public int forceGaugeBaudRate;
+        public int forceGaugeBaudRateIndex;
 
-        void Start()
+        //モニタリング用変数群
+
+
+        private TRAVEDevice _device;
+        private TRAVEForceGauge _forceGauge;
+
+        void Awake()
         {
             _device = TRAVEDevice.GetDevice();
+            _forceGauge = TRAVEForceGauge.GetDevice();
         }
+
 
         void LateUpdate()
         {
