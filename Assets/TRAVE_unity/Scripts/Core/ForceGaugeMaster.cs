@@ -19,25 +19,24 @@ namespace TRAVE_unity
            _forceGauge._masterMethod_AllocateParams(settingParams);
            _logger.printMessage = settingParams.printMessage;
            _forceGauge._masterMethod_Awake();
-           Debug.Log(settingParams.printMessage);
 
         }
 
 
-        // void Start()
-        // {
-        //     _trave._masterMethod_Start();  
-        // }
+        void Start()
+        {
+            _forceGauge._masterMethod_Start();  
+        }
 
-        // void Update()
-        // {
-        //     _trave._masterMethod_Update();
-        // }
+        void Update()
+        {
+            _forceGauge._masterMethod_Update();
+        }
 
-        // void OnApplicationQuit()
-        // {
-        //     _trave._masterMethod_OnApplicationQuit();
-        // }
+        void OnApplicationQuit()
+        {
+            _forceGauge._masterMethod_OnApplicationQuit();
+        }
 
          
     }

@@ -43,7 +43,7 @@ namespace TRAVE_unity
 
 
         //モニタリング用変数群
-        public bool isConnected = false;
+        public bool deviceIsConnected = false;
         public string motorMode = "-";
         public float torque = 0.0f;
         public float speed = 0.0f;
@@ -60,6 +60,8 @@ namespace TRAVE_unity
         public int forceGaugeBaudRateIndex;
 
         //モニタリング用変数群
+        public bool forceGaugeIsConnected = false;
+        public float force;
 
 
         private TRAVEDevice _device;
@@ -79,13 +81,21 @@ namespace TRAVE_unity
 
         private void AllocateParams()
         {
-            TRAVEReceivingFormat currentProfile = _device.currentProfile;
-            isConnected = _device.isConnected;
-            motorMode = _device.motorMode;
-            torque = currentProfile.trq;
-            speed = currentProfile.spd;
-            position = currentProfile.pos;
-            integrationAngle = currentProfile.integrationAngle;
+            {
+                TRAVEReceivingFormat currentProfile = _device.currentProfile;
+                deviceIsConnected = _device.isConnected;
+                motorMode = _device.motorMode;
+                torque = currentProfile.trq;
+                speed = currentProfile.spd;
+                position = currentProfile.pos;
+                integrationAngle = currentProfile.integrationAngle;
+            }
+
+            {
+                TRAVEReceivingFormat currentProfile = _forceGauge.currentProfile;
+                forceGaugeIsConnected = _forceGauge.isConnected;
+                force = currentProfile.force;
+            }
         }
 
         public void sendFieldText()

@@ -46,7 +46,8 @@ namespace TRAVE_unity
         private GUIStyle turnOnButtonStyle;
         private GUIStyle turnOffButtonStyle;
         private GUIStyle centeredLabelStyle;
-        private GUIStyle monitoringConnectionValueStyle;
+        private GUIStyle monitoringDeviceConnectionValueStyle;
+        private GUIStyle monitoringForceGaugeConnectionValueStyle;
         private GUIStyle monitoringLabelStyle;
         private GUIStyle monitoringValueStyle;
 
@@ -107,10 +108,15 @@ namespace TRAVE_unity
             centeredLabelStyle.fontStyle = FontStyle.Bold;
             centeredLabelStyle.alignment = TextAnchor.MiddleCenter;
 
-            monitoringConnectionValueStyle = new GUIStyle(GUI.skin.label);
-            monitoringConnectionValueStyle.fontStyle = FontStyle.Bold;
-            monitoringConnectionValueStyle.normal.textColor = settingParams.isConnected ? Color.green : Color.red;
-            monitoringConnectionValueStyle.alignment = TextAnchor.MiddleCenter;
+            monitoringDeviceConnectionValueStyle = new GUIStyle(GUI.skin.label);
+            monitoringDeviceConnectionValueStyle.fontStyle = FontStyle.Bold;
+            monitoringDeviceConnectionValueStyle.normal.textColor = settingParams.deviceIsConnected ? Color.green : Color.red;
+            monitoringDeviceConnectionValueStyle.alignment = TextAnchor.MiddleCenter;
+
+            monitoringForceGaugeConnectionValueStyle = new GUIStyle(GUI.skin.label);
+            monitoringForceGaugeConnectionValueStyle.fontStyle = FontStyle.Bold;
+            monitoringForceGaugeConnectionValueStyle.normal.textColor = settingParams.forceGaugeIsConnected ? Color.green : Color.red;
+            monitoringForceGaugeConnectionValueStyle.alignment = TextAnchor.MiddleCenter;
 
             monitoringLabelStyle = new GUIStyle(GUI.skin.label);
             monitoringLabelStyle.fontStyle = FontStyle.Normal;
@@ -153,7 +159,7 @@ namespace TRAVE_unity
             GUIHelper.BeginVerticalPadded();
             EditorGUILayout.PropertyField(deviceCommunicationType);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(printMessage);
+            // EditorGUILayout.PropertyField(printMessage);
             if(settingParams.printMessage)
             {
                 EditorGUILayout.PropertyField(printSerialMessage);
@@ -254,7 +260,7 @@ namespace TRAVE_unity
 
             EditorGUILayout.LabelField("TRAVE Device Monitoring", centeredLabelStyle);
             GUIHelper.BeginVerticalPadded();
-            RenderTableRow("State", settingParams.isConnected ? "Connected" : "Not connected", monitoringLabelStyle, monitoringConnectionValueStyle);
+            RenderTableRow("State", settingParams.deviceIsConnected ? "Connected" : "Not connected", monitoringLabelStyle, monitoringDeviceConnectionValueStyle);
             RenderTableRow("Motor Mode", settingParams.motorMode, monitoringLabelStyle, monitoringValueStyle);
             RenderTableRow("Current Torque", settingParams.torque.ToString(), monitoringLabelStyle, monitoringValueStyle);
             RenderTableRow("Current Speed", settingParams.speed.ToString(), monitoringLabelStyle, monitoringValueStyle);
@@ -269,14 +275,12 @@ namespace TRAVE_unity
             GUIHelper.BeginVerticalPadded();
             EditorGUILayout.PropertyField(forceGaugeCommunicationType);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(printMessage);
+            // EditorGUILayout.PropertyField(printMessage);
             if(settingParams.printMessage)
             {
                 EditorGUILayout.PropertyField(printSerialMessage);
             }
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.PropertyField(maxTorque);
-            EditorGUILayout.PropertyField(maxSpeed);
             GUIHelper.EndVerticalPadded();
             
             
@@ -306,10 +310,14 @@ namespace TRAVE_unity
                     GUIHelper.BeginVerticalPadded();
                     GUIHelper.EndVerticalPadded();
                     break;
-
-            
-
             }
+
+            EditorGUILayout.LabelField("TRAVE ForceGauge Monitoring", centeredLabelStyle);
+            GUIHelper.BeginVerticalPadded();
+            RenderTableRow("State", settingParams.forceGaugeIsConnected ? "Connected" : "Not connected", monitoringLabelStyle, monitoringForceGaugeConnectionValueStyle);
+            RenderTableRow("Force", settingParams.force.ToString(), monitoringLabelStyle, monitoringValueStyle);
+            
+            GUIHelper.EndVerticalPadded();
         }
 
         private void RenderTableRow(string label, string value, GUIStyle labelStyle, GUIStyle valueStyle)
