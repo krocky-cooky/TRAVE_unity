@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-namespace TRAVE 
+namespace TRAVE_unity
 {
     public enum TrainingDeviceType 
     {

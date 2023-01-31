@@ -260,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deviceCommunicationType: 0
   printMessage: 1
-  printSerialMessage: 1
+  printSerialMessage: 0
   maxTorque: 4
   maxSpeed: 5
   sendingText: 
@@ -281,8 +281,8 @@ MonoBehaviour:
   position: 0
   integrationAngle: 0
   forceGaugeCommunicationType: 0
-  forceGaugePortName: (Unselected)
-  forceGaugePortNameIndex: -1
+  forceGaugePortName: COM5
+  forceGaugePortNameIndex: 1
   forceGaugeBaudRate: 115200
   forceGaugeBaudRateIndex: 0
   forceGaugeIsConnected: 0

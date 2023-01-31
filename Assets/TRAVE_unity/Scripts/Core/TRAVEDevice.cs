@@ -25,6 +25,7 @@ namespace TRAVE
         {
             get
             {
+                if(_communicationBase == null) return false;
                 return _communicationBase.isConnected;
             }
         }
