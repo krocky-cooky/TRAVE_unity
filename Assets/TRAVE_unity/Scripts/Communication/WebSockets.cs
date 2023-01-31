@@ -16,6 +16,9 @@ namespace TRAVE_unity
 
         private TRAVELogger _logger = TRAVELogger.GetInstance;
 
+        public WebSockets(TrainingDeviceType type) : base(type) 
+        {}
+
         public override bool isConnected
         {
             get

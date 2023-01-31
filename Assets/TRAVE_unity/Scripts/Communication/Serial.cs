@@ -22,6 +22,9 @@ namespace TRAVE_unity
 
         private TRAVELogger _logger = TRAVELogger.GetInstance;
 
+        public Serial(TrainingDeviceType type) : base(type) 
+        {}
+
         public override bool isConnected
         {
             get 
@@ -90,9 +93,17 @@ namespace TRAVE_unity
 
         public override void AllocateParams(SettingParams settingParams)
         {
-            _portName = settingParams.portName;
-            _baudRate = settingParams.baudRate;
-            _printSerialMessage = settingParams.printSerialMessage;
+            if(_deviceType == TrainingDeviceType.Device)
+            {    _portName = settingParams.devicePortName;
+                _baudRate = settingParams.deviceBaudRate;
+                _printSerialMessage = settingParams.printSerialMessage;
+            }
+            else if(_deviceType == TrainingDeviceType.ForceGauge)
+            {
+                _portName = settingParams.forceGaugePortName;
+                _baudRate = settingParams.forceGaugeBaudRate;
+                _printSerialMessage = settingParams.printSerialMessage;
+            }
         }
         
 
