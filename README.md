@@ -1,5 +1,5 @@
 # TRAVE_unity
-[![version](https://img.shields.io/badge/version-v0.0.1-brightgreen)](https://github.com/krocky-cooky/TRAVE_unity/releases/tag/v0.0.1)
+[![version](https://img.shields.io/badge/version-v0.0.2-brightgreen)](https://github.com/krocky-cooky/TRAVE_unity/releases/tag/v0.0.2)
 [![License](https://img.shields.io/badge/License-MIT-red)](https://github.com/krocky-cooky/TRAVE_unity/blob/main/LICENSE)
 [![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/krocky-cooky/TRAVE_unity)
 
