@@ -7,6 +7,11 @@ using TRAVE;
 
 namespace TRAVE_unity
 {
+    /// <summary>
+    /// This script is attatched to TRAVEForceGauge object.
+    /// Updating instance of TRAVEForceGauge.
+    /// <see cref="TRAVEForceGauge"/>
+    /// </summary>
     public class ForceGaugeMaster : MonoBehaviour 
     {
         private TRAVEForceGauge _forceGauge = TRAVEForceGauge.GetDevice();

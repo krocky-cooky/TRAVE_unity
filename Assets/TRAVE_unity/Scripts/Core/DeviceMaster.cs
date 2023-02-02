@@ -7,6 +7,11 @@ using TRAVE;
 
 namespace TRAVE_unity
 {
+    /// <summary>
+    /// This script is attatched to TRAVEDevice object.
+    /// Updating instance of TRAVEDevice.
+    /// <see cref="TRAVEDevice"/>
+    /// </summary>
     public class DeviceMaster : MonoBehaviour 
     {
         private TRAVEDevice _trave = TRAVEDevice.GetDevice();
