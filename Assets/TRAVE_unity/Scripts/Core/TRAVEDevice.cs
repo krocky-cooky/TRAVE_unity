@@ -145,7 +145,6 @@ namespace TRAVE
             _dataToSend.spdLimitLiftup = spdLimitLiftup;
         }
 
-        //<sammary> 速度指令モードに変更し、スピード値をセットする </sammary>
         public void SetSpeedMode(float speed, float trqLimit = 6.0f)
         {
             _dataToSend.target = "spd";
@@ -194,7 +193,6 @@ namespace TRAVE
             return Apply();
         }
 
-        //<sammary> モーターに変更を適用する </sammary>
         public bool Apply(bool forceChange = false)
         {
             if(CheckSendingInterval() || forceChange)
