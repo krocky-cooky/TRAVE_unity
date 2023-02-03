@@ -258,9 +258,9 @@ namespace TRAVE
         }
 
         /// <summary>
-        /// 
+        /// Turn on motor.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Whether or not successfully transmitted.</returns>
         public bool TurnOnMotor()
         {
             string command = MOTOR_COMMAND_PREFIX + "1";
@@ -268,9 +268,9 @@ namespace TRAVE
         }
 
         /// <summary>
-        /// 
+        /// Turn off motor.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Whether or not successfully transmitted.</returns>
         public bool TurnOffMotor()
         {
             string command = MOTOR_COMMAND_PREFIX + "0";
@@ -278,9 +278,9 @@ namespace TRAVE
         }
 
         /// <summary>
-        /// 
+        /// Turn on converter.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Whether or not successfully transmitted.</returns>
         public bool TurnOnConverter()
         {
             string command = COVNVERTER_COMMAND_PREFIX + "1";
@@ -288,9 +288,9 @@ namespace TRAVE
         }
 
         /// <summary>
-        /// 
+        /// Turn off converter.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Whether or not successfully transmitted.</returns>
         public bool TurnOffConverter()
         {
             string command = COVNVERTER_COMMAND_PREFIX + "0";
@@ -298,19 +298,19 @@ namespace TRAVE
         }
 
         /// <summary>
-        /// 
+        /// Send device row string.
         /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
+        /// <param name="command">String to be sent.</param>
+        /// <returns>Whether or not successfully transmitted.</returns>
         public bool SendString(string command)
         {
             return _communicationBase.SendString(command);
         }
 
         /// <summary>
-        /// 
+        /// Set motor to speed zero mode, which is the safest state.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Whether or not successfully transmitted.</returns>
         public bool RestoreMotor()
         {
             SetSpeedMode(0.0f);
@@ -319,10 +319,11 @@ namespace TRAVE
 
 
         /// <summary>
-        /// 
+        /// Apply the settings on the device.
+        /// This method failed if the last execution is within MIN_SENDING_INTERVAL_MS.
         /// </summary>
-        /// <param name="forceChange"></param>
-        /// <returns></returns>
+        /// <param name="forceChange">If this value is true, transmission interval will not be considered.</param>
+        /// <returns>If application is successfully made.</returns>
         public bool Apply(bool forceChange = false)
         {
             if(CheckSendingInterval() || forceChange)
@@ -346,9 +347,9 @@ namespace TRAVE
         }
 
         /// <summary>
-        /// 
+        /// Retrieve received data in TRAVEReceivingFormat. <see cref="TRAVEReceivingFormat" />
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Received value.</returns>
         public TRAVEReceivingFormat GetReceivedData()
         {
             string receivedString = _communicationBase.GetReceivedString();
