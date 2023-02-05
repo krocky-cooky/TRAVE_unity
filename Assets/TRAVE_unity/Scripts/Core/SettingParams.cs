@@ -3,7 +3,9 @@ using TRAVE;
 
 namespace TRAVE_unity
 {
-
+    /// <summary>
+    /// Communication method types.
+    /// </summary>
     public enum CommunicationType
     {
         Serial,
@@ -11,6 +13,9 @@ namespace TRAVE_unity
         Bluetooth,
     }
 
+    /// <summary>
+    /// Operation type of the motor of training device.
+    /// </summary>
     public enum DeviceOperationType
     {
         Torque,
@@ -21,8 +26,10 @@ namespace TRAVE_unity
     public class SettingParams : MonoBehaviour
     {
 
-        //TRAVEDevice用
-        //セットアップ用変数群
+        /// <summary>
+        /// Communication method type of TRAVE training device.
+        /// <see cref="CommunicationType" />
+        /// </summary>
         public CommunicationType deviceCommunicationType = CommunicationType.Serial;
         public bool printMessage = true;
         public bool printSerialMessage = false;

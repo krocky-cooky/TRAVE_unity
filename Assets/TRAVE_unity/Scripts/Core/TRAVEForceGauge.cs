@@ -4,13 +4,31 @@ using System;
 
 namespace TRAVE 
 {
+    /// <summary>
+    /// Operation interface for TRAVE force gauge.
+    /// </summary>
     public class TRAVEForceGauge : TRAVEBase<TRAVEForceGauge> 
     {
+        /// <summary>
+        /// Which communication method to use.
+        /// <see cref"CommunicationType" />
+        /// </summary>
         private CommunicationType _communicationType;
+
+        /// <summary>
+        /// Instances corresponding to communication methods.
+        /// <see cref="CommunicationBase" />
+        /// </summary>
         private CommunicationBase _communicationBase;
 
+        /// <summary>
+        /// The latest data obtained from motor.
+        /// </summary>
         public TRAVEReceivingFormat currentProfile{ get;set; } = new TRAVEReceivingFormat();
 
+        /// <summary>
+        /// Whether or not the connection is made.
+        /// </summary>
         public bool isConnected
         {
             get 
@@ -20,6 +38,9 @@ namespace TRAVE
             }
         }
 
+        /// <summary>
+        /// Current force value of force gauge.
+        /// </summary>
         public float force 
         {
             get 
@@ -28,6 +49,11 @@ namespace TRAVE
             }
         }
 
+        /// <summary>
+        /// Override of parameter asaigning method.
+        /// <see cref="TRAVEBase"/>
+        /// </summary>
+        /// <param name="settingParams"><see cref="SettingParams"/></param>
         public override void _masterMethod_AllocateParams(SettingParams settingParams)
         {
             // allocation of parameters
@@ -48,34 +74,58 @@ namespace TRAVE
             _communicationBase.AllocateParams(settingParams);
         }
 
+        /// <summary>
+        /// Override of 'Awake' method.
+        /// <see cref="TRAVEBase"/>
+        /// </summary>
         public override void _masterMethod_Awake()
         {
             _communicationBase.Awake();
         }
 
+        /// <summary>
+        /// Override of 'Start' method.
+        /// <see cref="TRAVEBase"/>
+        /// </summary>
         public override void _masterMethod_Start()
         {
             _communicationBase.Start();
             
         }
 
+        /// <summary>
+        /// Override of 'Update' method.
+        /// <see cref="TRAVEBase"/>
+        /// </summary>
         public override void _masterMethod_Update()
         {
             _communicationBase.Update();
             currentProfile = GetReceivedData();
         }
 
+        /// <summary>
+        /// Override of 'OnApplicationQuit' method.
+        /// <see cref="TRAVEBase"/>
+        /// </summary>
         public override void _masterMethod_OnApplicationQuit()
         {
             _communicationBase.OnApplicationQuit();
         }
 
+        /// <summary>
+        /// Try establishing connection again.
+        /// </summary>
+        /// <returns>Whether or not connection is made.</returns>
         public bool ReConnectToDevice()
         {
             _communicationBase.Connect();
             return _communicationBase.isConnected;
         }
 
+        /// <summary>
+        /// Retrieve received data in TRAVEReceivingFormat. <see cref="TRAVEReceivingFormat" />
+        /// </summary>
+        /// <returns>Received value.</returns>
         public TRAVEReceivingFormat GetReceivedData()
         {
             string receivedString = _communicationBase.GetReceivedString();
