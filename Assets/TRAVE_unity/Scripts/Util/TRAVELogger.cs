@@ -4,14 +4,22 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
-    
+    /// <summary>
+    /// Debug printing class only for TRAVE.
+    /// </summary>
     public class TRAVELogger
     {
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         private static readonly TRAVELogger instance = new TRAVELogger();
 
         public string latestLogString = "";
         public bool printMessage;
 
+        /// <summary>
+        /// Log level of messages.
+        /// </summary>
         public enum LogLevel
         {
             Debug,
@@ -22,6 +30,9 @@ namespace TRAVE_unity
             None
         }
 
+        /// <summary>
+        /// Correspondance between Loglevel and color of the printed string.
+        /// </summary>
         private Dictionary< LogLevel, string > _logLevel2Color = new Dictionary< LogLevel, string>()
         {
             { LogLevel.Debug, "cyan" },
@@ -32,20 +43,26 @@ namespace TRAVE_unity
             { LogLevel.None, "white" }
         };
 
-        //以下公開プロパティ
-
-        //クラスインスタンスアクセス用
+        /// <summary>
+        /// Get singleton instance of TRAVELogger.
+        /// Instances have to be initialized with this property.
+        /// </summary>
+        /// <value>Singleton instance.</value>
         public static TRAVELogger GetInstance
         {
             get {return instance;}
         }
 
-        //ログ出力
+        /// <summary>
+        /// Printing log to inspector.
+        /// By specifying loglevel, color of the printed string can be changed.
+        /// </summary>
+        /// <param name="logMessage">String value of log.</param>
+        /// <param name="logLevel">Loglevel of request.</param>
         public void writeLog(string logMessage, LogLevel logLevel = LogLevel.Debug)
         {
             if(printMessage)
             {
-                //出力文字列の生成
                 string color = _logLevel2Color[logLevel];
                 string logString = $"[<color=cyan>TRAVE</color>::<color={color}>{logLevel.ToString()}</color>] <color={color}>{logMessage}</color>";
                 latestLogString = logString;
