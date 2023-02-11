@@ -70,6 +70,9 @@ namespace TRAVE_unity
 
     }
 
+    /// <summary>
+    /// Format protocol for receiving.
+    /// </summary>
     public class TRAVEReceivingFormat
     {
         
