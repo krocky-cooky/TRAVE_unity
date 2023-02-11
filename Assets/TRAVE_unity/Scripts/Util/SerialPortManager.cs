@@ -6,18 +6,33 @@ using System.Collections.Generic;
 
 namespace TRAVE_unity
 {
+    /// <summary>
+    /// Retrieve and store available serial port.
+    /// </summary>
     public class SerialPortManager
     {
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         private static readonly SerialPortManager instance = new SerialPortManager();
 
-        //クラスインスタンスアクセス用
+        /// <summary>
+        /// Getter for instance.
+        /// </summary>
         public static SerialPortManager GetInstance
         {
             get {return instance;}
         }
 
-        //public Dictionary<string,string> portName2DeviceName = new Dictionary<string,string>();
+        /// <summary>
+        /// Availeble portNames.
+        /// To get port names, you need to execute 'RetrievePortsAndDevices()' method.
+        /// </summary>
         private string[] _portNames;
+
+        /// <summary>
+        /// With this property, you can access _portNames after getting port names.
+        /// </summary>
         public string[] portNames
         {
             get
@@ -32,6 +47,9 @@ namespace TRAVE_unity
             RetrievePortsAndDevices();
         }
 
+        /// <summary>
+        /// Getting available port names.
+        /// </summary>
         private void RetrievePortsAndDevices()
         {
             _portNames = SerialPort.GetPortNames();
