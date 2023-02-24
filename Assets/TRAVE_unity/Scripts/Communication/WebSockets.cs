@@ -43,7 +43,7 @@ namespace TRAVE_unity
         {
             if(isConnected)
             {
-                _logger.writeLog("Websocket connection has already been established.", TRAVELogger.LogLevel.Info );
+                _logger.WriteLog("Websocket connection has already been established.", TRAVELogger.LogLevel.Info );
                 return;
             }
             

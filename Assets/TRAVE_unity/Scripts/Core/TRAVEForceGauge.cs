@@ -141,7 +141,7 @@ namespace TRAVE
             catch(System.Exception e)
             {
                 string message = e.Message;
-                _logger.writeLog(receivedString, TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog(receivedString, TRAVELogger.LogLevel.Warn);
                 return new TRAVEReceivingFormat();
             }
         }

@@ -44,7 +44,7 @@ namespace TRAVE
         /// <summary>
         /// Storing the data to be sent.
         /// </summary>
-        private TRAVESendingFormat _dataToSend = new TRAVESendingFormat();
+        private TRAVESendingFormat _dataToBeSent = new TRAVESendingFormat();
 
         /// <summary>
         /// Time of last transmission.
@@ -228,15 +228,15 @@ namespace TRAVE
         /// <param name="spdLimitLiftup"></param>
         public void SetTorqueMode(float torque, float spdLimit = 10.0f, float spdLimitLiftup = 10.0f)
         {
-            _dataToSend.target = "trq";
+            _dataToBeSent.target = "trq";
             if(torque > _maxTorque)
             {
-                _logger.writeLog("Input torque limit exceeded.", TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog("Input torque limit exceeded.", TRAVELogger.LogLevel.Warn);
                 torque = _maxTorque;
             }
-            _dataToSend.trq = torque;
-            _dataToSend.spdLimit = spdLimit;
-            _dataToSend.spdLimitLiftup = spdLimitLiftup;
+            _dataToBeSent.trq = torque;
+            _dataToBeSent.spdLimit = spdLimit;
+            _dataToBeSent.spdLimitLiftup = spdLimitLiftup;
         }
 
         /// <summary>
@@ -247,14 +247,14 @@ namespace TRAVE
         /// <param name="trqLimit">Maximum torque.</param>
         public void SetSpeedMode(float speed, float trqLimit = 6.0f)
         {
-            _dataToSend.target = "spd";
+            _dataToBeSent.target = "spd";
             if(speed > _maxSpeed)
             {
-                _logger.writeLog("Input speed limit exceeded.", TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog("Input speed limit exceeded.", TRAVELogger.LogLevel.Warn);
                 speed = _maxSpeed;
             }
-            _dataToSend.spd = speed;
-            _dataToSend.trqLimit = trqLimit;
+            _dataToBeSent.spd = speed;
+            _dataToBeSent.trqLimit = trqLimit;
         }
 
         /// <summary>
@@ -328,8 +328,8 @@ namespace TRAVE
         {
             if(CheckSendingInterval() || forceChange)
             {
-                _currentMotorState = _dataToSend;
-                if(_communicationBase.SendData(_dataToSend))
+                _currentMotorState = _dataToBeSent;
+                if(_communicationBase.SendData(_dataToBeSent))
                 {
                     _timeOfPreviousSend = DateTime.Now;
                     return true;
@@ -341,7 +341,7 @@ namespace TRAVE
             }
             else
             {
-                _logger.writeLog("Transmission interval is too short.", TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog("Transmission interval is too short.", TRAVELogger.LogLevel.Warn);
                 return false;
             }
         }
@@ -365,7 +365,7 @@ namespace TRAVE
             catch(System.Exception e)
             {
                 string message = e.Message;
-                _logger.writeLog(receivedString, TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog(receivedString, TRAVELogger.LogLevel.Warn);
                 return new TRAVEReceivingFormat();
             }
         }
