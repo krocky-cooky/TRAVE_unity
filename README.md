@@ -110,5 +110,8 @@ Current position of the motor.
 #### `float <TRAVEDevice>.integrationAngle`
 Current integration angle of the motor.
 
+### `TRAVEForceGauge`
+API for the force gauge.
+
 ## License
 [MIT License](https://github.com/krocky-cooky/TRAVE_unity/blob/main/LICENSE)

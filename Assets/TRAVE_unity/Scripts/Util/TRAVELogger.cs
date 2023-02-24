@@ -59,7 +59,7 @@ namespace TRAVE_unity
         /// </summary>
         /// <param name="logMessage">String value of log.</param>
         /// <param name="logLevel">Loglevel of request.</param>
-        public void writeLog(string logMessage, LogLevel logLevel = LogLevel.Debug)
+        public void WriteLog(string logMessage, LogLevel logLevel = LogLevel.Debug)
         {
             if(printMessage)
             {

@@ -123,13 +123,13 @@ namespace TRAVE_unity
 
             if(!_portName.Contains("COM"))
             {
-                _logger.writeLog("Serial port is not selected.", TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog("Serial port is not selected.", TRAVELogger.LogLevel.Warn);
                 return;
             }
 
             if(isConnected)
             {
-                _logger.writeLog("Serial Port has already opened.", TRAVELogger.LogLevel.Info);
+                _logger.WriteLog("Serial Port has already opened.", TRAVELogger.LogLevel.Info);
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace TRAVE_unity
             }
             catch (System.Exception e)
             {
-                _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog(e.Message, TRAVELogger.LogLevel.Warn);
                 return;
             }
             
@@ -196,7 +196,7 @@ namespace TRAVE_unity
         /// </summary>
         public override void OnConnect()
         {
-            _logger.writeLog("Serial port opened.", TRAVELogger.LogLevel.Info);
+            _logger.WriteLog("Serial port opened.", TRAVELogger.LogLevel.Info);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace TRAVE_unity
         /// </summary>
         public override void OnDisconnect()
         {
-            _logger.writeLog("Serial port closed.", TRAVELogger.LogLevel.Info);
+            _logger.WriteLog("Serial port closed.", TRAVELogger.LogLevel.Info);
         }
 
         /// <summary>
@@ -223,13 +223,13 @@ namespace TRAVE_unity
                         receivedString = message;
                         if(_printSerialMessage)
                         {
-                            _logger.writeLog(receivedString, TRAVELogger.LogLevel.Info);
+                            _logger.WriteLog(receivedString, TRAVELogger.LogLevel.Info);
                         }
                     }
                     catch (System.Exception e)
                     {
                         if(!_cancellationToken)
-                            _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
+                            _logger.WriteLog(e.Message, TRAVELogger.LogLevel.Warn);
                     }
                 }
                 return true;
@@ -272,7 +272,7 @@ namespace TRAVE_unity
             }
             else
             {
-                _logger.writeLog("Serial port not open.", TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog("Serial port not open.", TRAVELogger.LogLevel.Warn);
                 return false;
             }
         }
@@ -290,7 +290,7 @@ namespace TRAVE_unity
             }
             else
             {
-                _logger.writeLog("Serial port not open.", TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog("Serial port not open.", TRAVELogger.LogLevel.Warn);
                 return false;
             }
         }
@@ -309,7 +309,7 @@ namespace TRAVE_unity
             }
             catch (System.Exception e)
             {
-                _logger.writeLog(e.Message, TRAVELogger.LogLevel.Warn);
+                _logger.WriteLog(e.Message, TRAVELogger.LogLevel.Warn);
                 return false;
             }
             return true;
